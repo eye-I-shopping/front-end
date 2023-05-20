@@ -1,7 +1,11 @@
-import "./App.css";
+import StartScreen from "./StartScreen";
 
 function App() {
-  return;
+  return (
+    <div>
+      <StartScreen />
+    </div>
+  );
 }
 
 export default App;
