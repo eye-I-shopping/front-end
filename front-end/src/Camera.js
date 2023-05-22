@@ -1,13 +1,6 @@
 import React, { useRef, useEffect, useState } from "react";
-import {
-  Drawer,
-  Button,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-} from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
+import { Drawer, Button, List, ListItem, ListItemText } from "@mui/material";
+import { Menu as MenuIcon } from "@mui/icons-material";
 import "./Camera.css";
 
 function isIOS() {
@@ -17,12 +10,13 @@ function isIOS() {
 function Camera() {
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
-  const [visible, setVisible] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [imageData, setImageData] = useState(null);
 
-  const capture = () => {
+  const captureImage = () => {
     const canvas = canvasRef.current;
     const video = videoRef.current;
+
     canvas.width = video.videoWidth;
     canvas.height = video.videoHeight;
     const ctx = canvas.getContext("2d");
@@ -34,30 +28,28 @@ function Camera() {
   };
 
   useEffect(() => {
-    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-      const constraints = isIOS()
-        ? { video: { facingMode: { exact: "environment" } } }
-        : { video: { facingMode: "environment" } };
+    const constraints = isIOS()
+      ? { video: { facingMode: { exact: "environment" } } }
+      : { video: { facingMode: "environment" } };
 
-      navigator.mediaDevices
-        .getUserMedia(constraints)
-        .then((stream) => {
-          if (videoRef.current) {
-            videoRef.current.srcObject = stream;
-          }
-        })
-        .catch((err) => {
-          console.error("An error occurred: " + err);
-        });
-    }
+    navigator.mediaDevices
+      .getUserMedia(constraints)
+      .then((stream) => {
+        if (videoRef.current) {
+          videoRef.current.srcObject = stream;
+        }
+      })
+      .catch((err) => {
+        console.error("An error occurred: " + err);
+      });
   }, []);
 
-  const showDrawer = () => {
-    setVisible(true);
+  const toggleMenu = () => {
+    setIsMenuOpen((prevIsMenuOpen) => !prevIsMenuOpen);
   };
 
-  const onClose = () => {
-    setVisible(false);
+  const handleCloseMenu = () => {
+    setIsMenuOpen(false);
   };
 
   return (
@@ -65,14 +57,14 @@ function Camera() {
       <video ref={videoRef} autoPlay={true} />
       <canvas ref={canvasRef} style={{ display: "none" }} />
       <div className="camera-controls">
-        <Button variant="contained" color="primary" onClick={capture}>
+        <Button variant="contained" color="primary" onClick={captureImage}>
           Capture
         </Button>
         <Button
           variant="contained"
           color="primary"
           startIcon={<MenuIcon />}
-          onClick={showDrawer}
+          onClick={toggleMenu}
         >
           Menu
         </Button>
@@ -86,19 +78,19 @@ function Camera() {
             Download Capture
           </Button>
         )}
-        <Drawer anchor="right" open={visible} onClose={onClose}>
+        <Drawer anchor="right" open={isMenuOpen} onClose={handleCloseMenu}>
           <List>
-            <ListItem button>
+            <ListItem>
               <ListItemText primary="Option 1" />
             </ListItem>
-            <ListItem button>
+            <ListItem>
               <ListItemText primary="Option 2" />
             </ListItem>
-            <ListItem button>
+            <ListItem>
               <ListItemText primary="Option 3" />
             </ListItem>
           </List>
-          <Button variant="contained" color="primary" onClick={onClose}>
+          <Button variant="contained" color="primary" onClick={handleCloseMenu}>
             Close Menu
           </Button>
         </Drawer>
