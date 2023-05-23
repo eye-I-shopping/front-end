@@ -4,7 +4,12 @@ import { Menu as MenuIcon } from "@mui/icons-material";
 import "./Camera.css";
 
 function isIOS() {
-  return /iPhone|iPad|iPod/i.test(navigator.userAgent);
+  const userAgent = navigator.userAgent;
+  return (
+    userAgent.includes("iPhone") ||
+    userAgent.includes("iPad") ||
+    userAgent.includes("iPod")
+  );
 }
 
 function Camera() {
@@ -81,13 +86,13 @@ function Camera() {
         <Drawer anchor="right" open={isMenuOpen} onClose={handleCloseMenu}>
           <List>
             <ListItem>
-              <ListItemText primary="Option 1" />
+              <ListItemText primary="보이스선택" />
             </ListItem>
             <ListItem>
-              <ListItemText primary="Option 2" />
+              <ListItemText primary="음향설정" />
             </ListItem>
             <ListItem>
-              <ListItemText primary="Option 3" />
+              <ListItemText primary="사용설명" />
             </ListItem>
           </List>
           <Button variant="contained" color="primary" onClick={handleCloseMenu}>
