@@ -3,15 +3,6 @@ import { Drawer, Button, List, ListItem, ListItemText } from "@mui/material";
 import { Menu as MenuIcon } from "@mui/icons-material";
 import "./Camera.css";
 
-function isIOS() {
-  const userAgent = navigator.userAgent;
-  return (
-    userAgent.includes("iPhone") ||
-    userAgent.includes("iPad") ||
-    userAgent.includes("iPod")
-  );
-}
-
 function Camera() {
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
@@ -25,7 +16,7 @@ function Camera() {
     canvas.width = video.videoWidth;
     canvas.height = video.videoHeight;
     const ctx = canvas.getContext("2d");
-    ctx.drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
+    ctx.drawImage(video, 10, 10, video.videoWidth, video.videoHeight);
 
     const dataUrl = canvas.toDataURL("image/png");
     setImageData(dataUrl);
@@ -33,9 +24,7 @@ function Camera() {
   };
 
   useEffect(() => {
-    const constraints = isIOS()
-      ? { video: { facingMode: { exact: "environment" } } }
-      : { video: { facingMode: "environment" } };
+    const constraints = { video: { facingMode: "environment" } };
 
     navigator.mediaDevices
       .getUserMedia(constraints)
@@ -75,6 +64,7 @@ function Camera() {
         </Button>
         {imageData && (
           <Button
+            sx={{}}
             variant="contained"
             color="primary"
             href={imageData}
