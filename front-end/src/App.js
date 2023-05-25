@@ -1,9 +1,8 @@
-import StartScreen from "./StartScreen";
-
+import SplashImage from "./SplashImage";
 function App() {
   return (
     <div>
-      <StartScreen />
+      <SplashImage />
     </div>
   );
 }
