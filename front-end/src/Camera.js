@@ -2,15 +2,7 @@ import React, { useRef, useEffect, useState } from "react";
 import { Drawer, Button, List, ListItem, ListItemText } from "@mui/material";
 import { Menu as MenuIcon } from "@mui/icons-material";
 import "./Camera.css";
-
-function isIOS() {
-  const userAgent = navigator.userAgent;
-  return (
-    userAgent.includes("iPhone") ||
-    userAgent.includes("iPad") ||
-    userAgent.includes("iPod")
-  );
-}
+import axios from "axios";
 
 function Camera() {
   const videoRef = useRef(null);
@@ -25,17 +17,46 @@ function Camera() {
     canvas.width = video.videoWidth;
     canvas.height = video.videoHeight;
     const ctx = canvas.getContext("2d");
-    ctx.drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
+    ctx.drawImage(video, 10, 10, video.videoWidth, video.videoHeight);
 
-    const dataUrl = canvas.toDataURL("image/png");
+    const dataUrl = canvas.toDataURL("image/jpg");
     setImageData(dataUrl);
-    console.log(dataUrl);
+
+    // Convert dataUrl to Blob
+    const blob = dataUrltoBlob(dataUrl);
+
+    // Create a FormData and append the Blob data
+    const formData = new FormData();
+    formData.append("image", blob);
+
+    axios
+      .post("http://localhost:5000/v1/object-detection/yolov5", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const dataUrltoBlob = (dataURI) => {
+    let base64Content = atob(dataURI.split(",")[1]);
+    let mimeType = dataURI.split(",")[0].split(":")[1].split(";")[0];
+    let arrayBuffer = new ArrayBuffer(base64Content.length);
+    let arrayBufferView = new Uint8Array(arrayBuffer);
+    for (let i = 0; i < base64Content.length; i++) {
+      arrayBufferView[i] = base64Content.charCodeAt(i);
+    }
+    let blob = new Blob([arrayBuffer], { type: mimeType });
+    return blob;
   };
 
   useEffect(() => {
-    const constraints = isIOS()
-      ? { video: { facingMode: { exact: "environment" } } }
-      : { video: { facingMode: "environment" } };
+    const constraints = { video: { facingMode: "environment" } };
 
     navigator.mediaDevices
       .getUserMedia(constraints)
@@ -75,6 +96,7 @@ function Camera() {
         </Button>
         {imageData && (
           <Button
+            sx={{}}
             variant="contained"
             color="primary"
             href={imageData}
