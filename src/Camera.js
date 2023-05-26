@@ -80,7 +80,7 @@ function Camera() {
 
   return (
     <div className="camera">
-      <video ref={videoRef} autoPlay={true} />
+      <video ref={videoRef} autoPlay playsInline />
       <canvas ref={canvasRef} style={{ display: "none" }} />
       <div className="camera-controls">
         <Button variant="contained" color="primary" onClick={captureImage}>
