@@ -1,9 +1,11 @@
 import StartScreen from "./StartScreen";
+import TTS from "./TTS";
 
 function App() {
   return (
     <div>
-      <StartScreen />
+      {/* <StartScreen /> */}
+      <TTS />
     </div>
   );
 }
