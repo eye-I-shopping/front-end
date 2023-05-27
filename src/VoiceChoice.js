@@ -29,7 +29,7 @@ const App = () => {
             gridGap: "20px",
             backgroundColor: "purple",
             padding: "30px",
-            borderRadius: "10% 10% 0 0",
+            borderRadius: "40px 40px 0 0",
             width: "70%",
             marginBottom: "0",
             height: "90vh",
@@ -41,7 +41,7 @@ const App = () => {
             color="primary"
             sx={{
               backgroundColor: "lightgray",
-              borderRadius: "15%",
+              borderRadius: "25px",
               gridArea: "a",
               color: "black",
               fontSize: "25px",
@@ -54,7 +54,7 @@ const App = () => {
             color="primary"
             sx={{
               backgroundColor: "lightgray",
-              borderRadius: "15%",
+              borderRadius: "25px",
               gridArea: "b",
               color: "black",
               fontSize: "25px",
@@ -67,7 +67,7 @@ const App = () => {
             color="primary"
             sx={{
               backgroundColor: "lightgray",
-              borderRadius: "15%",
+              borderRadius: "25px",
               gridArea: "c",
               color: "black",
               fontSize: "25px",
@@ -80,7 +80,7 @@ const App = () => {
             color="primary"
             sx={{
               backgroundColor: "lightgray",
-              borderRadius: "15%",
+              borderRadius: "25px",
               gridArea: "d",
               color: "black",
               fontSize: "25px",
@@ -93,9 +93,7 @@ const App = () => {
             color="primary"
             sx={{
               backgroundColor: "white",
-              variant: "contained",
-              color: "primary",
-              borderRadius: "15%",
+              borderRadius: "25px",
               gridArea: "e",
               color: "black",
               fontSize: "30px",

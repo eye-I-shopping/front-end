@@ -1,11 +1,8 @@
-import StartScreen from "./StartScreen";
-import TTS from "./TTS";
-
+import VoiceChoice from "./VoiceChoice";
 function App() {
   return (
     <div>
-      {/* <StartScreen /> */}
-      <TTS />
+      <VoiceChoice />
     </div>
   );
 }
