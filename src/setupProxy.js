@@ -2,9 +2,9 @@ const { createProxyMiddleware } = require("http-proxy-middleware");
 
 const setupProxy = (app) => {
   app.use(
-    "/root",
+    "/tts-premium",
     createProxyMiddleware({
-      target: "root",
+      target: "https://naveropenapi.apigw.ntruss.com",
       changeOrigin: true,
     })
   );
