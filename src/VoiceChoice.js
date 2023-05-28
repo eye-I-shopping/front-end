@@ -27,12 +27,11 @@ const App = () => {
               'e e'
             `,
             gridGap: "20px",
-            backgroundColor: "purple",
             padding: "30px",
             borderRadius: "40px 40px 0 0",
             width: "70%",
             marginBottom: "0",
-            height: "90vh",
+            height: "85vh",
             backgroundColor: "#977CC9",
           }}
         >
@@ -40,11 +39,11 @@ const App = () => {
             variant="Outlined"
             color="primary"
             sx={{
+              fontSize: "calc(1.5vw + 1.5vh)",
               backgroundColor: "lightgray",
               borderRadius: "25px",
               gridArea: "a",
               color: "black",
-              fontSize: "25px",
             }}
           >
             성인 남성
@@ -57,7 +56,7 @@ const App = () => {
               borderRadius: "25px",
               gridArea: "b",
               color: "black",
-              fontSize: "25px",
+              fontSize: "calc(1.5vw + 1.5vh)",
             }}
           >
             성인 여성
@@ -70,7 +69,7 @@ const App = () => {
               borderRadius: "25px",
               gridArea: "c",
               color: "black",
-              fontSize: "25px",
+              fontSize: "calc(1.5vw + 1.5vh)",
             }}
           >
             남자 아이
@@ -83,7 +82,7 @@ const App = () => {
               borderRadius: "25px",
               gridArea: "d",
               color: "black",
-              fontSize: "25px",
+              fontSize: "calc(1.5vw + 1.5vh)",
             }}
           >
             여자 아이
@@ -96,7 +95,7 @@ const App = () => {
               borderRadius: "25px",
               gridArea: "e",
               color: "black",
-              fontSize: "30px",
+              fontSize: "calc(1.5vw + 1.5vh)",
             }}
           >
             저장하기
