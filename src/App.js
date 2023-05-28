@@ -1,8 +1,10 @@
-import TTS from "./TTS";
+// import TTs from "./TTS";
+import Camera from "./Camera";
 function App() {
   return (
     <div>
-      <TTS />
+      {/* <TTs /> */}
+      <Camera />
     </div>
   );
 }
