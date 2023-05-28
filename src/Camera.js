@@ -1,13 +1,15 @@
 import React, { useRef, useEffect, useState } from "react";
-import { Drawer, Button, List, ListItem, ListItemText } from "@mui/material";
-import { Menu as MenuIcon } from "@mui/icons-material";
+import { AppBar, Toolbar, Button } from "@mui/material";
+import {
+  HelpOutline as HelpIcon,
+  SettingsVoice as VoiceSettingIcon,
+} from "@mui/icons-material";
 import "./Camera.css";
 import axios from "axios";
 
 function Camera() {
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [imageData, setImageData] = useState(null);
 
   const captureImage = () => {
@@ -70,58 +72,48 @@ function Camera() {
       });
   }, []);
 
-  const toggleMenu = () => {
-    setIsMenuOpen((prevIsMenuOpen) => !prevIsMenuOpen);
-  };
-
-  const handleCloseMenu = () => {
-    setIsMenuOpen(false);
-  };
-
   return (
     <div className="camera">
-      <video ref={videoRef} autoPlay={true} />
-      <canvas ref={canvasRef} style={{ display: "none" }} />
-      <div className="camera-controls">
-        <Button variant="contained" color="primary" onClick={captureImage}>
-          Capture
-        </Button>
-        <Button
-          variant="contained"
-          color="primary"
-          startIcon={<MenuIcon />}
-          onClick={toggleMenu}
-        >
-          Menu
-        </Button>
-        {imageData && (
-          <Button
-            sx={{}}
-            variant="contained"
-            color="primary"
-            href={imageData}
-            download="capture.png"
-          >
-            Download Capture
-          </Button>
-        )}
-        <Drawer anchor="right" open={isMenuOpen} onClose={handleCloseMenu}>
-          <List>
-            <ListItem>
-              <ListItemText primary="보이스선택" />
-            </ListItem>
-            <ListItem>
-              <ListItemText primary="음향설정" />
-            </ListItem>
-            <ListItem>
-              <ListItemText primary="사용설명" />
-            </ListItem>
-          </List>
-          <Button variant="contained" color="primary" onClick={handleCloseMenu}>
-            Close Menu
-          </Button>
-        </Drawer>
+      <AppBar
+        position="static"
+        color="transparent"
+        elevation={0}
+        className="appbar"
+      >
+        <Toolbar className="toolbar">
+          <div className="toolbar-button">
+            <Button
+              sx={{ height: "10vh", width: "50vw" }}
+              color="inherit"
+              startIcon={<HelpIcon />}
+            >
+              사용방법
+            </Button>
+          </div>
+          <div className="toolbar-button">
+            <Button
+              sx={{ height: "10vh", width: "50vw" }}
+              color="inherit"
+              startIcon={<VoiceSettingIcon />}
+            >
+              음성 설정
+            </Button>
+          </div>
+        </Toolbar>
+      </AppBar>
+      <div className="camera-view">
+        <video ref={videoRef} autoPlay={true} playsInline={true} />
       </div>
+      <div className="capture-area" onClick={captureImage} />
+      {imageData && (
+        <a
+          href={imageData}
+          download="capture.png"
+          style={{ display: "none" }}
+          ref={(link) => link && link.click()}
+        />
+      )}
+      <canvas ref={canvasRef} style={{ display: "none" }} />
     </div>
   );
 }

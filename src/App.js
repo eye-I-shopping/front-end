@@ -1,11 +1,10 @@
-import StartScreen from "./StartScreen";
-import TTS from "./TTS";
-
+// import TTs from "./TTS";
+import Camera from "./Camera";
 function App() {
   return (
     <div>
-      {/* <StartScreen /> */}
-      <TTS />
+      {/* <TTs /> */}
+      <Camera />
     </div>
   );
 }
