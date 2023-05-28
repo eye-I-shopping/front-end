@@ -1,8 +1,8 @@
-import VoiceChoice from "./VoiceChoice";
+import TTS from "./TTS";
 function App() {
   return (
     <div>
-      <VoiceChoice />
+      <TTS />
     </div>
   );
 }

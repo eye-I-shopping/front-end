@@ -5,8 +5,8 @@ function TTS() {
   const [TTSAudio, setTTSAudio] = useState(null);
   useEffect(() => {
     const formData = new FormData();
-    formData.append("speaker", "nara");
-    formData.append("text", "내가 미안해..");
+    formData.append("speaker", "nkyunglee");
+    formData.append("text", "고마워 준형");
 
     axios
       .post("/tts-premium/v1/tts", formData, {
