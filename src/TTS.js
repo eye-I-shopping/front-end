@@ -1,12 +1,13 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import axios from "axios";
 
 function TTS() {
   const [TTSAudio, setTTSAudio] = useState(null);
-  useEffect(() => {
+
+  const handleClick = () => {
     const formData = new FormData();
     formData.append("speaker", "nkyunglee");
-    formData.append("text", "고마워 준형");
+    formData.append("text", "안녕");
 
     axios
       .post("/tts-premium/v1/tts", formData, {
@@ -25,10 +26,12 @@ function TTS() {
       .catch((error) => {
         console.log(error);
       });
-  }, []);
+  };
+
   return (
     <div>
       TTS TEST
+      <button onClick={handleClick}>Play TTS</button>
       <audio controls src={TTSAudio}>
         Your browser does not support the audio element.
       </audio>

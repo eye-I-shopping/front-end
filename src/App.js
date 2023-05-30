@@ -1,10 +1,12 @@
 // import TTs from "./TTS";
-import Camera from "./Camera";
+// import Camera from "./Camera";
+import SplashImage from "./SplashImage";
 function App() {
   return (
     <div>
       {/* <TTs /> */}
-      <Camera />
+      {/* <Camera /> */}
+      <SplashImage />
     </div>
   );
 }
