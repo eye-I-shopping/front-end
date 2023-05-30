@@ -31,8 +31,20 @@ function Camera() {
     const formData = new FormData();
     formData.append("image", blob);
 
+    // axios
+    //   .post("http://192.168.196.233:80/api/test2", formData, {
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //   })
+    //   .then((response) => {
+    //     console.log(response);
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //   });
     axios
-      .post("http://localhost:5000/v1/object-detection/yolov5", formData, {
+      .post("https://eyeishopping.shop/", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -71,7 +83,6 @@ function Camera() {
         console.error("An error occurred: " + err);
       });
   }, []);
-
   return (
     <div className="camera">
       <AppBar

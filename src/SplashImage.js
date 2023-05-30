@@ -1,28 +1,46 @@
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import SplashIm from "./image/main.png";
 import ConnectIm from "./image/secondMain.png";
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import VoiceChoice from "./VoiceChoice";
+import Camera from "./Camera";
 import "./SplashImage.moduel.css";
 
 function SplashImage() {
-  const navigate = useNavigate();
-  const [loading, setLoading] = useState(true);
-
+  const [data, setData] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const formData = new FormData();
+  formData.append("token_id", "temp");
   useEffect(() => {
-    setTimeout(() => {
-      setLoading(false);
-      navigate("/voiceChoice");
-    }, 2000); // 2초 후에 스플래시 화면이 사라집니다.
-  }, [navigate]);
+    axios
+      .post("http://192.168.0.39:80/settings", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then((response) => {
+        setData(response.data);
+        console.log(response.data);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        console.log(error);
+        setData(null);
+        setIsLoading(false);
+      });
+  }, []);
 
   return (
-    <div className="splashScreen">
-      <img
-        src={loading ? SplashIm : ConnectIm}
-        alt={loading ? "시작화면" : "접속완료 화면"}
-        className={loading ? "fade-out" : "fade-in"}
-      />
-    </div>
+    <>
+      <div className="splashScreen">
+        <img
+          src={isLoading ? SplashIm : ConnectIm}
+          alt={isLoading ? "시작화면" : "접속완료 화면"}
+          className={isLoading ? "fade-out" : "fade-in"}
+        />
+      </div>
+      <div>{data ? <Camera /> : <VoiceChoice />}</div>
+    </>
   );
 }
 
