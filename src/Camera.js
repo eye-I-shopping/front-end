@@ -6,11 +6,13 @@ import {
 } from "@mui/icons-material";
 import "./Camera.css";
 import axios from "axios";
+import HelpBox from "./components/HelpBox";
 
 function Camera() {
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
   const [imageData, setImageData] = useState(null);
+  const [showHelp, setShowHelp] = useState(false);
 
   const captureImage = () => {
     const canvas = canvasRef.current;
@@ -69,6 +71,10 @@ function Camera() {
     return blob;
   };
 
+  const handleHelpClick = () => {
+    setShowHelp((prevShowHelp) => !prevShowHelp);
+  };
+
   useEffect(() => {
     const constraints = { video: { facingMode: "environment" } };
 
@@ -97,6 +103,7 @@ function Camera() {
               sx={{ height: "10vh", width: "50vw" }}
               color="inherit"
               startIcon={<HelpIcon />}
+              onClick={handleHelpClick}
             >
               사용방법
             </Button>
@@ -115,6 +122,7 @@ function Camera() {
       <div className="camera-view">
         <video ref={videoRef} autoPlay={true} playsInline={true} />
       </div>
+      {showHelp && <HelpBox />}
       <div className="capture-area" onClick={captureImage} />
       {imageData && (
         <a
