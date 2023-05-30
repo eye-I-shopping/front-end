@@ -1,9 +1,10 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import Header from "./components/Header"; // 해당 경로에 따라 수정해주세요
 
-const App = () => {
+const VoiceChoice = () => {
   return (
     <>
       <Header />
@@ -90,6 +91,8 @@ const App = () => {
           <Button
             variant="Outlined"
             color="primary"
+            component={Link} // Link 컴포넌트로 변경
+            to="/voiceChoice/speedChoice"
             sx={{
               backgroundColor: "white",
               borderRadius: "25px",
@@ -106,4 +109,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default VoiceChoice;
