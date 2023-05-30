@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import Header from "./components/Header";
@@ -65,6 +66,8 @@ const App = () => {
           </IconButton>
           <Button
             variant="Outlined"
+            component={Link}
+            to="/voiceChoice/speedChoice/camera"
             sx={{
               backgroundColor: "white",
               borderRadius: "25px",
