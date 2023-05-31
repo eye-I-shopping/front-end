@@ -2,12 +2,12 @@ import React from "react";
 import { Link } from "react-router-dom";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
-import Header from "./components/Header"; // 해당 경로에 따라 수정해주세요
+import Header from "./components/Header";
 
 const VoiceChoice = () => {
   return (
     <>
-      <Header />
+      <Header title="음성 선택" skipLink="/splashImage/voiceChoice/speedChoice"/>
       <Box
         sx={{
           display: "flex",
@@ -50,8 +50,8 @@ const VoiceChoice = () => {
             성인 남성
           </Button>
           <Button
-            variant="Outlined"
-            color="primary"
+            variant="contained" // 어떤지 물어보기 (버튼 강조)
+            color="inherit"
             sx={{
               backgroundColor: "lightgray",
               borderRadius: "25px",
@@ -91,8 +91,8 @@ const VoiceChoice = () => {
           <Button
             variant="Outlined"
             color="primary"
-            component={Link} // Link 컴포넌트로 변경
-            to="/voiceChoice/speedChoice"
+            component={Link}
+            to="/splashImage/voiceChoice/speedChoice"
             sx={{
               backgroundColor: "white",
               borderRadius: "25px",

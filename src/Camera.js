@@ -1,5 +1,6 @@
 import React, { useRef, useEffect, useState } from "react";
-import { AppBar, Toolbar, Button } from "@mui/material";
+import { Link } from "react-router-dom";
+import { AppBar, Toolbar, Button, Modal, Typography } from "@mui/material";
 import {
   HelpOutline as HelpIcon,
   SettingsVoice as VoiceSettingIcon,
@@ -11,6 +12,7 @@ function Camera() {
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
   const [imageData, setImageData] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const captureImage = () => {
     const canvas = canvasRef.current;
@@ -83,6 +85,16 @@ function Camera() {
         console.error("An error occurred: " + err);
       });
   }, []);
+
+  const handleModalOpen = () => {
+    setIsModalOpen(true);
+    // 오디오 파일 로직 추가
+  }
+
+  const handleModalClose = () => {
+    setIsModalOpen(false);
+  }
+
   return (
     <div className="camera">
       <AppBar
@@ -97,12 +109,15 @@ function Camera() {
               sx={{ height: "10vh", width: "50vw" }}
               color="inherit"
               startIcon={<HelpIcon />}
+              onClick={handleModalOpen}
             >
               사용방법
             </Button>
           </div>
           <div className="toolbar-button">
             <Button
+              component={Link}
+              to="/splashImage/voiceChoice"
               sx={{ height: "10vh", width: "50vw" }}
               color="inherit"
               startIcon={<VoiceSettingIcon />}
@@ -125,6 +140,22 @@ function Camera() {
         />
       )}
       <canvas ref={canvasRef} style={{ display: "none" }} />
+
+      <Modal
+        open={isModalOpen}
+        onClose={handleModalClose}
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <div className="modal-container">
+          <Typography variant="h5" align="center" sx={{ mb:2 }}>
+            안녕하세요.
+          </Typography>
+        </div>
+      </Modal>
     </div>
   );
 }
