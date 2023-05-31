@@ -9,11 +9,11 @@ function SplashImage() {
   const navigate = useNavigate();
 
   const formData = new FormData();
-  formData.append("token_id", "temp");
+  formData.append("id", "temp");
 
   useEffect(() => {
     axios
-      .post("https://192.168.0.39:80/settings", formData, {
+      .post("http://192.168.0.10:80/settings", formData, {
         headers: {
           "Content-Type": "application/json",
         },
@@ -21,14 +21,17 @@ function SplashImage() {
       .then((response) => {
         setData(response.data);
         if (response.data) {
-          navigate("/splashImage/voiceChoice/speedChoice/camera");
+          console.log(response.data);
+          navigate("/splashImage/voiceChoice/speedChoice/camera", {
+            replace: true,
+          });
         } else {
-          navigate("/splashImage/voiceChoice");
+          navigate("/splashImage/voiceChoice", { replace: true });
         }
       })
       .catch((error) => {
         console.log(error);
-        navigate("/splashImage/voiceChoice");
+        navigate("/splashImage/voiceChoice", { replace: true });
       });
   }, [navigate]);
 
