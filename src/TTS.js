@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import axios from "axios";
 
 function TTS() {
@@ -11,7 +11,7 @@ function TTS() {
   const handleClick = () => {
     const formData = new FormData();
     formData.append("speaker", "nkyunglee");
-    formData.append("text", "고마워 준형");
+    formData.append("text", "안녕");
 
     axios
       .post("/tts-premium/v1/tts", formData, {
@@ -30,7 +30,8 @@ function TTS() {
       .catch((error) => {
         console.log(error);
       });
-  }, []);
+  };
+
   return (
     <div>
       TTS TEST

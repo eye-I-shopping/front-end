@@ -1,14 +1,18 @@
 import React from "react";
-import Button from "@mui/material/Button";
-import Box from "@mui/material/Box";
+import { Link } from "react-router-dom";
+import { Box, Button } from "@mui/material";
 import Header from "./components/Header";
 import IconButton from "@mui/material/IconButton";
 import KeyboardControlKeyOutlinedIcon from "@mui/icons-material/KeyboardControlKeyOutlined";
 import KeyboardArrowDownOutlinedIcon from "@mui/icons-material/KeyboardArrowDownOutlined";
-const App = () => {
+
+const SpeedChoice = () => {
   return (
     <>
-      <Header />
+      <Header
+        title="음성 속도 조절"
+        skipLink="/splashImage/voiceChoice/speedChoice/camera"
+      />
       <Box
         sx={{
           display: "flex",
@@ -65,6 +69,8 @@ const App = () => {
           </IconButton>
           <Button
             variant="Outlined"
+            component={Link}
+            to="/splashImage/voiceChoice/speedChoice/camera"
             sx={{
               backgroundColor: "white",
               borderRadius: "25px",
@@ -81,4 +87,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default SpeedChoice;

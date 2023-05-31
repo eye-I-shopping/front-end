@@ -1,11 +1,13 @@
 import React, { useRef, useEffect, useState } from "react";
-import { AppBar, Toolbar, Button } from "@mui/material";
+import { Link } from "react-router-dom";
+import { AppBar, Toolbar, Button, Modal, Typography } from "@mui/material";
 import {
   HelpOutline as HelpIcon,
   SettingsVoice as VoiceSettingIcon,
 } from "@mui/icons-material";
 import "./Camera.css";
 import axios from "axios";
+import HelpBox from "./components/HelpBox";
 
 function Camera() {
   const videoRef = useRef(null);
@@ -17,6 +19,7 @@ function Camera() {
   const audioStyle = {
     display: "none",
   };
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const captureImage = () => {
     const canvas = canvasRef.current;
@@ -37,8 +40,20 @@ function Camera() {
     const formData = new FormData();
     formData.append("image", blob);
 
+    // axios
+    //   .post("http://192.168.196.233:80/api/test2", formData, {
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //   })
+    //   .then((response) => {
+    //     console.log(response);
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //   });
     axios
-      .post("http://localhost:5000/v1/object-detection/yolov5", formData, {
+      .post("https://eyeishopping.shop/", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -107,6 +122,15 @@ function Camera() {
       });
   }, []);
 
+  const handleModalOpen = () => {
+    setIsModalOpen(true);
+    // 오디오 파일 로직 추가
+  };
+
+  const handleModalClose = () => {
+    setIsModalOpen(false);
+  };
+
   return (
     <div className="camera">
       <AppBar
@@ -122,12 +146,15 @@ function Camera() {
               sx={{ height: "10vh", width: "50vw" }}
               color="inherit"
               startIcon={<HelpIcon />}
+              onClick={handleModalOpen}
             >
               사용방법
             </Button>
           </div>
           <div className="toolbar-button">
             <Button
+              component={Link}
+              to="/splashImage/voiceChoice"
               sx={{ height: "10vh", width: "50vw" }}
               color="inherit"
               startIcon={<VoiceSettingIcon />}
@@ -140,6 +167,7 @@ function Camera() {
       <div className="camera-view">
         <video ref={videoRef} autoPlay={true} playsInline={true} />
       </div>
+      {showHelp && <HelpBox />}
       <div className="capture-area" onClick={captureImage} />
       {imageData && (
         <a
@@ -150,6 +178,22 @@ function Camera() {
         />
       )}
       <canvas ref={canvasRef} style={{ display: "none" }} />
+
+      <Modal
+        open={isModalOpen}
+        onClose={handleModalClose}
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <div className="modal-container">
+          <Typography variant="h5" align="center" sx={{ mb: 2 }}>
+            안녕하세요.
+          </Typography>
+        </div>
+      </Modal>
     </div>
   );
 }
