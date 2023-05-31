@@ -13,6 +13,12 @@ function Camera() {
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
   const [imageData, setImageData] = useState(null);
+  const [showHelp, setShowHelp] = useState(false);
+  const [TTSAudio, setTTSAudio] = useState(null);
+
+  const audioStyle = {
+    display: "none",
+  };
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const captureImage = () => {
@@ -54,6 +60,7 @@ function Camera() {
       })
       .then((response) => {
         console.log(response);
+        handleClick();
       })
       .catch((error) => {
         console.log(error);
@@ -70,6 +77,30 @@ function Camera() {
     }
     let blob = new Blob([arrayBuffer], { type: mimeType });
     return blob;
+  };
+
+  const handleClick = () => {
+    const formData = new FormData();
+    formData.append("speaker", "nkyunglee");
+    formData.append("text", "chilsung cider");
+
+    axios
+      .post("/tts-premium/v1/tts", formData, {
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+          "X-NCP-APIGW-API-KEY-ID": "ph9wqvtot6",
+          "X-NCP-APIGW-API-KEY": "ZchMYX2neSv2fc4kAL1915MVFBUJ9FZfstip5ITQ",
+        },
+        responseType: "blob",
+      })
+      .then((response) => {
+        console.log(response);
+        const audios = URL.createObjectURL(response.data);
+        setTTSAudio(audios);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   const handleHelpClick = () => {
@@ -94,11 +125,11 @@ function Camera() {
   const handleModalOpen = () => {
     setIsModalOpen(true);
     // 오디오 파일 로직 추가
-  }
+  };
 
   const handleModalClose = () => {
     setIsModalOpen(false);
-  }
+  };
 
   return (
     <div className="camera">
@@ -108,6 +139,7 @@ function Camera() {
         elevation={0}
         className="appbar"
       >
+        <audio controls src={TTSAudio} style={audioStyle} autoPlay />
         <Toolbar className="toolbar">
           <div className="toolbar-button">
             <Button
@@ -157,7 +189,7 @@ function Camera() {
         }}
       >
         <div className="modal-container">
-          <Typography variant="h5" align="center" sx={{ mb:2 }}>
+          <Typography variant="h5" align="center" sx={{ mb: 2 }}>
             안녕하세요.
           </Typography>
         </div>
