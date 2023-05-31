@@ -7,19 +7,17 @@ import {
 } from "@mui/icons-material";
 import "./Camera.css";
 import axios from "axios";
-import HelpBox from "./components/HelpBox";
 
 function Camera() {
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
   const [imageData, setImageData] = useState(null);
-  const [showHelp, setShowHelp] = useState(false);
   const [TTSAudio, setTTSAudio] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const audioStyle = {
     display: "none",
   };
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const captureImage = () => {
     const canvas = canvasRef.current;
@@ -40,18 +38,6 @@ function Camera() {
     const formData = new FormData();
     formData.append("image", blob);
 
-    // axios
-    //   .post("http://192.168.196.233:80/api/test2", formData, {
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //   })
-    //   .then((response) => {
-    //     console.log(response);
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //   });
     axios
       .post("https://eyeishopping.shop/", formData, {
         headers: {
@@ -101,10 +87,6 @@ function Camera() {
       .catch((error) => {
         console.log(error);
       });
-  };
-
-  const handleHelpClick = () => {
-    setShowHelp((prevShowHelp) => !prevShowHelp);
   };
 
   useEffect(() => {
@@ -167,7 +149,6 @@ function Camera() {
       <div className="camera-view">
         <video ref={videoRef} autoPlay={true} playsInline={true} />
       </div>
-      {showHelp && <HelpBox />}
       <div className="capture-area" onClick={captureImage} />
       {imageData && (
         <a
