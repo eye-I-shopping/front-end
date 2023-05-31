@@ -1,5 +1,7 @@
 // import TTs from "./TTS";
 import Camera from "./Camera";
+import TTS from "./TTS";
+
 function App() {
   return (
     <div>
