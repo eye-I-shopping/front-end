@@ -44,6 +44,10 @@
   cursor: pointer;
 }
 
+.audio {
+  display: none;
+}
+
 /* Hide canvas */
 canvas {
   display: none;

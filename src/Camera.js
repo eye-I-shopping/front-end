@@ -15,10 +15,6 @@ function Camera() {
   const [TTSAudio, setTTSAudio] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const audioStyle = {
-    display: "none",
-  };
-
   const captureImage = () => {
     const canvas = canvasRef.current;
     const video = videoRef.current;
@@ -46,7 +42,7 @@ function Camera() {
       })
       .then((response) => {
         console.log(response);
-        handleClick();
+        playTTS();
       })
       .catch((error) => {
         console.log(error);
@@ -65,7 +61,7 @@ function Camera() {
     return blob;
   };
 
-  const handleClick = () => {
+  const playTTS = () => {
     const formData = new FormData();
     formData.append("speaker", "nkyunglee");
     formData.append("text", "chilsung cider");
@@ -121,7 +117,6 @@ function Camera() {
         elevation={0}
         className="appbar"
       >
-        <audio controls src={TTSAudio} style={audioStyle} autoPlay />
         <Toolbar className="toolbar">
           <div className="toolbar-button">
             <Button
@@ -146,6 +141,7 @@ function Camera() {
           </div>
         </Toolbar>
       </AppBar>
+      <audio controls src={TTSAudio} className="audio" autoPlay />
       <div className="camera-view">
         <video ref={videoRef} autoPlay={true} playsInline={true} />
       </div>
