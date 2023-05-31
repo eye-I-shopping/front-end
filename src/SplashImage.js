@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import SplashIm from "./image/main.png";
-import ConnectIm from "./image/secondMain.png";
-import "./SplashImage.module.css";
+import logoImage_purple from './image/logo_purple.png';
+import './SplashImage.css';
 import { useNavigate } from "react-router-dom";
 
 function SplashImage() {
@@ -27,26 +26,21 @@ function SplashImage() {
       .then((response) => {
         setData(response.data);
         if (response.data) {
-          navigate("/camera");
+          navigate("/splashImage/voiceChoice/speedChoice/camera");
         } else {
-          navigate("/voiceChoice");
+          navigate("/splashImage/voiceChoice");
         }
       })
       .catch((error) => {
         console.log(error);
-        navigate("/voiceChoice");
+        navigate("/splashImage/voiceChoice");
       });
   }, []);
 
   return (
-    <div className="splashScreen">
-      {data === null ? (
-        <img src={SplashIm} alt="시작화면" className="fade-in" />
-      ) : (
-        <img src={ConnectIm} alt="접속완료 화면" className="fade-in-fade-out" />
-      )}
+    <div className="splashImgage">
+      <img src={logoImage_purple} alt="Logo" className="logo fade-in-fade-out" />
     </div>
   );
 }
-
 export default SplashImage;
