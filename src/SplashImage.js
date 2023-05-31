@@ -2,45 +2,50 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import SplashIm from "./image/main.png";
 import ConnectIm from "./image/secondMain.png";
-import VoiceChoice from "./VoiceChoice";
-import Camera from "./Camera";
-import "./SplashImage.moduel.css";
+import "./SplashImage.module.css";
+import { useNavigate } from "react-router-dom";
 
 function SplashImage() {
   const [data, setData] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const navigate = useNavigate();
+
   const formData = new FormData();
   formData.append("token_id", "temp");
+
   useEffect(() => {
+    if (window.BRIDGE !== undefined) {
+      let phoneToken = window.BRIDGE.sendToken();
+      alert(phoneToken);
+    }
+
     axios
-      .post("http://192.168.0.39:80/settings", formData, {
+      .post("https://192.168.0.39:80/settings", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       })
       .then((response) => {
         setData(response.data);
-        console.log(response.data);
-        setIsLoading(false);
+        if (response.data) {
+          navigate("/camera");
+        } else {
+          navigate("/voiceChoice");
+        }
       })
       .catch((error) => {
         console.log(error);
-        setData(null);
-        setIsLoading(false);
+        navigate("/voiceChoice");
       });
   }, []);
 
   return (
-    <>
-      <div className="splashScreen">
-        <img
-          src={isLoading ? SplashIm : ConnectIm}
-          alt={isLoading ? "시작화면" : "접속완료 화면"}
-          className={isLoading ? "fade-out" : "fade-in"}
-        />
-      </div>
-      <div>{data ? <Camera /> : <VoiceChoice />}</div>
-    </>
+    <div className="splashScreen">
+      {data === null ? (
+        <img src={SplashIm} alt="시작화면" className="fade-in" />
+      ) : (
+        <img src={ConnectIm} alt="접속완료 화면" className="fade-in-fade-out" />
+      )}
+    </div>
   );
 }
 
