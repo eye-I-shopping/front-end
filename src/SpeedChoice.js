@@ -9,7 +9,10 @@ import KeyboardArrowDownOutlinedIcon from "@mui/icons-material/KeyboardArrowDown
 const SpeedChoice = () => {
   return (
     <>
-      <Header title="음성 속도 조절" skipLink="/splashImage/voiceChoice/speedChoice/camera"/>
+      <Header
+        title="음성 속도 조절"
+        skipLink="/splashImage/voiceChoice/speedChoice/camera"
+      />
       <Box
         sx={{
           display: "flex",

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import logoImage_purple from './image/logo_purple.png';
-import './SplashImage.css';
+import logoImage_purple from "./image/logo_purple.png";
+import "./SplashImage.css";
 import { useNavigate } from "react-router-dom";
 
 function SplashImage() {
@@ -9,7 +9,7 @@ function SplashImage() {
   const navigate = useNavigate();
 
   const formData = new FormData();
-  formData.append("token_id", "temp");
+  formData.append("id", "temp");
 
   useEffect(() => {
     if (window.BRIDGE !== undefined) {
@@ -18,28 +18,35 @@ function SplashImage() {
     }
 
     axios
-      .post("https://192.168.0.39:80/settings", formData, {
+      .post("http://192.168.0.10:80/settings", formData, {
         headers: {
-          "Content-Type": "multipart/form-data",
+          "Content-Type": "application/json",
         },
       })
       .then((response) => {
         setData(response.data);
         if (response.data) {
-          navigate("/splashImage/voiceChoice/speedChoice/camera");
+          console.log(response.data);
+          navigate("/splashImage/voiceChoice/speedChoice/camera", {
+            replace: true,
+          });
         } else {
-          navigate("/splashImage/voiceChoice");
+          navigate("/splashImage/voiceChoice", { replace: true });
         }
       })
       .catch((error) => {
         console.log(error);
-        navigate("/splashImage/voiceChoice");
+        navigate("/splashImage/voiceChoice", { replace: true });
       });
-  }, []);
+  }, [navigate]);
 
   return (
     <div className="splashImgage">
-      <img src={logoImage_purple} alt="Logo" className="logo fade-in-fade-out" />
+      <img
+        src={logoImage_purple}
+        alt="Logo"
+        className="logo fade-in-fade-out"
+      />
     </div>
   );
 }
