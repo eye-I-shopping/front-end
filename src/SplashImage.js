@@ -12,6 +12,11 @@ function SplashImage() {
   formData.append("token_id", "temp");
 
   useEffect(() => {
+    if (window.BRIDGE !== undefined) {
+      let phoneToken = window.BRIDGE.sendToken();
+      alert(phoneToken);
+    }
+
     axios
       .post("https://192.168.0.39:80/settings", formData, {
         headers: {

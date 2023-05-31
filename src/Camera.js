@@ -7,6 +7,7 @@ import {
 } from "@mui/icons-material";
 import "./Camera.css";
 import axios from "axios";
+import HelpBox from "./components/HelpBox";
 
 function Camera() {
   const videoRef = useRef(null);
@@ -71,6 +72,10 @@ function Camera() {
     return blob;
   };
 
+  const handleHelpClick = () => {
+    setShowHelp((prevShowHelp) => !prevShowHelp);
+  };
+
   useEffect(() => {
     const constraints = { video: { facingMode: "environment" } };
 
@@ -130,6 +135,7 @@ function Camera() {
       <div className="camera-view">
         <video ref={videoRef} autoPlay={true} playsInline={true} />
       </div>
+      {showHelp && <HelpBox />}
       <div className="capture-area" onClick={captureImage} />
       {imageData && (
         <a
