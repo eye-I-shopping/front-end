@@ -6,7 +6,7 @@ import Header from "./components/Header";
 import IconButton from "@mui/material/IconButton";
 import KeyboardControlKeyOutlinedIcon from "@mui/icons-material/KeyboardControlKeyOutlined";
 import KeyboardArrowDownOutlinedIcon from "@mui/icons-material/KeyboardArrowDownOutlined";
-const App = () => {
+const SpeedChoice = () => {
   return (
     <>
       <Header />
@@ -84,4 +84,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default SpeedChoice;
