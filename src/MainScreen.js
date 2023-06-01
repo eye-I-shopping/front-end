@@ -22,5 +22,3 @@ function MainScreen() {
 }
 
 export default MainScreen;
-
-export default MainScreen;
