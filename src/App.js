@@ -4,7 +4,6 @@ import SplashImage from "./SplashImage";
 import VoiceChoice from "./VoiceChoice";
 import SpeedChoice from "./SpeedChoice";
 import Camera from "./Camera";
-import TTS from "./TTS";
 
 function App() {
   return (

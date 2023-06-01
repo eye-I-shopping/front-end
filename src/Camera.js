@@ -7,18 +7,12 @@ import {
 } from "@mui/icons-material";
 import "./Camera.css";
 import axios from "axios";
-import HelpBox from "./components/HelpBox";
 
 function Camera() {
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
   const [imageData, setImageData] = useState(null);
-  const [showHelp, setShowHelp] = useState(false);
   const [TTSAudio, setTTSAudio] = useState(null);
-
-  const audioStyle = {
-    display: "none",
-  };
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const captureImage = () => {
@@ -40,18 +34,6 @@ function Camera() {
     const formData = new FormData();
     formData.append("image", blob);
 
-    // axios
-    //   .post("http://192.168.196.233:80/api/test2", formData, {
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //   })
-    //   .then((response) => {
-    //     console.log(response);
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //   });
     axios
       .post("https://eyeishopping.shop/", formData, {
         headers: {
@@ -60,7 +42,10 @@ function Camera() {
       })
       .then((response) => {
         console.log(response);
-        handleClick();
+        console.log(response.data[0].name);
+        if (response.data.length > 0) {
+          // playTTS(response.data[0].name);
+        }
       })
       .catch((error) => {
         console.log(error);
@@ -79,10 +64,10 @@ function Camera() {
     return blob;
   };
 
-  const handleClick = () => {
+  const playTTS = (tempReadingText) => {
     const formData = new FormData();
     formData.append("speaker", "nkyunglee");
-    formData.append("text", "chilsung cider");
+    formData.append("text", tempReadingText);
 
     axios
       .post("/tts-premium/v1/tts", formData, {
@@ -101,10 +86,6 @@ function Camera() {
       .catch((error) => {
         console.log(error);
       });
-  };
-
-  const handleHelpClick = () => {
-    setShowHelp((prevShowHelp) => !prevShowHelp);
   };
 
   useEffect(() => {
@@ -139,7 +120,6 @@ function Camera() {
         elevation={0}
         className="appbar"
       >
-        <audio controls src={TTSAudio} style={audioStyle} autoPlay />
         <Toolbar className="toolbar">
           <div className="toolbar-button">
             <Button
@@ -164,19 +144,12 @@ function Camera() {
           </div>
         </Toolbar>
       </AppBar>
+      <audio controls src={TTSAudio} className="audio" autoPlay />
       <div className="camera-view">
         <video ref={videoRef} autoPlay={true} playsInline={true} />
       </div>
-      {showHelp && <HelpBox />}
       <div className="capture-area" onClick={captureImage} />
-      {imageData && (
-        <a
-          href={imageData}
-          download="capture.png"
-          style={{ display: "none" }}
-          ref={(link) => link && link.click()}
-        />
-      )}
+      {imageData}
       <canvas ref={canvasRef} style={{ display: "none" }} />
 
       <Modal
