@@ -5,11 +5,12 @@ import Box from "@mui/material/Box";
 import Header from "./components/Header";
 
 const VoiceChoice = () => {
-  const [audioSource, setAudioSource] = useState("/mp3/Jinho.mp3");
+  const [audioSource, setAudioSource] = useState("");
   const audioRef = useRef();
 
-  const handleButtonClick = (audioFile) => {
+  const handleButtonClick = (audioFile, speaker) => {
     setAudioSource(audioFile);
+    sessionStorage.setItem("speaker", speaker); // 세션 스토리지에 저장
     if (audioRef.current) {
       audioRef.current.src = audioFile;
       audioRef.current.load();
@@ -23,11 +24,19 @@ const VoiceChoice = () => {
     }
   };
 
+  const handleSave = () => {
+    const speaker = sessionStorage.getItem("speaker");
+    console.log(speaker);
+  }
   return (
     <>
       <Header
         title="음성 선택"
         skipLink="/splashImage/voiceChoice/speedChoice"
+        skipOnClick={() => {
+          handleButtonClick("", "jinho");
+          handleSave();
+        }}
       />
       <Box
         sx={{
@@ -58,7 +67,7 @@ const VoiceChoice = () => {
           }}
         >
           <Button
-            onClick={() => handleButtonClick("/mp3/Jinho.mp3")}
+            onClick={() => handleButtonClick("/mp3/Jinho.mp3", "jinho")}
             variant="Outlined"
             color="primary"
             sx={{
@@ -72,7 +81,7 @@ const VoiceChoice = () => {
             성인 남성
           </Button>
           <Button
-            onClick={() => handleButtonClick("/mp3/Mikyung.mp3")}
+            onClick={() => handleButtonClick("/mp3/Mikyung.mp3", "mikyung")}
             variant="contained" // 어떤지 물어보기 (버튼 강조)
             color="inherit"
             sx={{
@@ -86,7 +95,7 @@ const VoiceChoice = () => {
             성인 여성
           </Button>
           <Button
-            onClick={() => handleButtonClick("/mp3/Hajoon.mp3")}
+            onClick={() => handleButtonClick("/mp3/Hajoon.mp3", "hajoon")}
             variant="Outlined"
             color="primary"
             sx={{
@@ -100,7 +109,7 @@ const VoiceChoice = () => {
             남자 아이
           </Button>
           <Button
-            onClick={() => handleButtonClick("/mp3/Dain.mp3")}
+            onClick={() => handleButtonClick("/mp3/Dain.mp3", "dain")}
             variant="Outlined"
             color="primary"
             sx={{
@@ -118,6 +127,7 @@ const VoiceChoice = () => {
             color="primary"
             component={Link}
             to="/splashImage/voiceChoice/speedChoice"
+            onClick={handleSave}
             sx={{
               backgroundColor: "white",
               borderRadius: "25px",
