@@ -42,7 +42,10 @@ function Camera() {
       })
       .then((response) => {
         console.log(response);
-        playTTS();
+        console.log(response.data[0].name);
+        if (response.data.length > 0) {
+          playTTS(response.data[0].name);
+        }
       })
       .catch((error) => {
         console.log(error);
@@ -61,10 +64,10 @@ function Camera() {
     return blob;
   };
 
-  const playTTS = () => {
+  const playTTS = (tempReadingText) => {
     const formData = new FormData();
     formData.append("speaker", "nkyunglee");
-    formData.append("text", "chilsung cider");
+    formData.append("text", tempReadingText);
 
     axios
       .post("/tts-premium/v1/tts", formData, {
@@ -146,14 +149,7 @@ function Camera() {
         <video ref={videoRef} autoPlay={true} playsInline={true} />
       </div>
       <div className="capture-area" onClick={captureImage} />
-      {imageData && (
-        <a
-          href={imageData}
-          download="capture.png"
-          style={{ display: "none" }}
-          ref={(link) => link && link.click()}
-        />
-      )}
+      {imageData}
       <canvas ref={canvasRef} style={{ display: "none" }} />
 
       <Modal
