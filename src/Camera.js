@@ -1,19 +1,24 @@
 import React, { useRef, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { AppBar, Toolbar, Button, Modal, Typography } from "@mui/material";
+import { AppBar, Toolbar, Button } from "@mui/material";
 import {
   HelpOutline as HelpIcon,
   SettingsVoice as VoiceSettingIcon,
 } from "@mui/icons-material";
 import "./Camera.css";
 import axios from "axios";
+import HelpBox from "./components/HelpBox";
 
 function Camera() {
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
   const [imageData, setImageData] = useState(null);
   const [TTSAudio, setTTSAudio] = useState(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isHelpBoxVisible, setIsHelpBoxVisible] = useState(false);
+
+  const handleHelpClick = () => {
+    setIsHelpBoxVisible(!isHelpBoxVisible);
+  };
 
   const captureImage = () => {
     const canvas = canvasRef.current;
@@ -103,15 +108,6 @@ function Camera() {
       });
   }, []);
 
-  const handleModalOpen = () => {
-    setIsModalOpen(true);
-    // 오디오 파일 로직 추가
-  };
-
-  const handleModalClose = () => {
-    setIsModalOpen(false);
-  };
-
   return (
     <div className="camera">
       <AppBar
@@ -123,10 +119,10 @@ function Camera() {
         <Toolbar className="toolbar">
           <div className="toolbar-button">
             <Button
+              onClick={handleHelpClick}
               sx={{ height: "10vh", width: "50vw" }}
               color="inherit"
               startIcon={<HelpIcon />}
-              onClick={handleModalOpen}
             >
               사용방법
             </Button>
@@ -151,24 +147,12 @@ function Camera() {
       <div className="capture-area" onClick={captureImage} />
       {imageData}
       <canvas ref={canvasRef} style={{ display: "none" }} />
-
-      <Modal
-        open={isModalOpen}
-        onClose={handleModalClose}
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        <div className="modal-container">
-          <Typography variant="h5" align="center" sx={{ mb: 2 }}>
-            안녕하세요.
-          </Typography>
+      {isHelpBoxVisible && (
+        <div>
+          <HelpBox />
         </div>
-      </Modal>
+      )}
     </div>
   );
 }
-
 export default Camera;
