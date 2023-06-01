@@ -44,7 +44,7 @@ function Camera() {
         console.log(response);
         console.log(response.data[0].name);
         if (response.data.length > 0) {
-          playTTS(response.data[0].name);
+          // playTTS(response.data[0].name);
         }
       })
       .catch((error) => {
