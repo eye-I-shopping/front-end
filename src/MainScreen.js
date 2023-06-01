@@ -13,7 +13,7 @@ function MainScreen() {
     }, 2000);
 
     const transitionTimer = setTimeout(() => {
-      navigate("/splashImage");
+      navigate("/splashImage", { replace: true });
     }, 4000);
 
     return () => {
@@ -23,7 +23,7 @@ function MainScreen() {
   }, [navigate]);
 
   return (
-    <div className={`mainScreen ${isTransitioning ? 'transitioning' : ''}`}>
+    <div className={`mainScreen ${isTransitioning ? "transitioning" : ""}`}>
       <img src={logoImage} alt="Logo" className="logo" />
       {isTransitioning && <div className="circle-mask"></div>}
     </div>
