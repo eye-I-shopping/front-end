@@ -16,7 +16,7 @@ function SplashImage() {
       let phoneToken = window.BRIDGE.sendToken();
       alert(phoneToken);
     }
-    
+
     axios
       .post("http://192.168.0.10:80/settings", formData, {
         headers: {
@@ -25,7 +25,7 @@ function SplashImage() {
       })
       .then((response) => {
         setData(response.data);
-        if (response.data) {
+        if (data) {
           console.log(response.data);
           setTimeout(() => {
             navigate("/splashImage/voiceChoice/speedChoice/camera", {
@@ -44,15 +44,11 @@ function SplashImage() {
           navigate("/splashImage/voiceChoice", { replace: true });
         }, 2000);
       });
-    }, [navigate]);
+  }, [navigate]);
 
   return (
     <div className="splashImgage">
-      <img
-        src={logoImage_purple}
-        alt="Logo"
-        className="logo"
-      />
+      <img src={logoImage_purple} alt="Logo" className="logo" />
     </div>
   );
 }
