@@ -1,19 +1,40 @@
-import React from "react";
+import React, { useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import Header from "./components/Header";
 
 const VoiceChoice = () => {
+  const [audioSource, setAudioSource] = useState("/mp3/Jinho.mp3");
+  const audioRef = useRef();
+
+  const handleButtonClick = (audioFile) => {
+    setAudioSource(audioFile);
+    if (audioRef.current) {
+      audioRef.current.src = audioFile;
+      audioRef.current.load();
+      audioRef.current.oncanplaythrough = async () => {
+        try {
+          await audioRef.current.play();
+        } catch (error) {
+          console.error("playback error", error);
+        }
+      };
+    }
+  };
+
   return (
     <>
-      <Header title="음성 선택" skipLink="/splashImage/voiceChoice/speedChoice"/>
+      <Header
+        title="음성 선택"
+        skipLink="/splashImage/voiceChoice/speedChoice"
+      />
       <Box
         sx={{
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          justifyContent: "flex-end", // 박스를 화면 하단에 배치
+          justifyContent: "flex-end",
           height: "100vh",
           backgroundColor: "white",
         }}
@@ -37,6 +58,7 @@ const VoiceChoice = () => {
           }}
         >
           <Button
+            onClick={() => handleButtonClick("/mp3/Jinho.mp3")}
             variant="Outlined"
             color="primary"
             sx={{
@@ -50,6 +72,7 @@ const VoiceChoice = () => {
             성인 남성
           </Button>
           <Button
+            onClick={() => handleButtonClick("/mp3/Mikyung.mp3")}
             variant="contained" // 어떤지 물어보기 (버튼 강조)
             color="inherit"
             sx={{
@@ -63,6 +86,7 @@ const VoiceChoice = () => {
             성인 여성
           </Button>
           <Button
+            onClick={() => handleButtonClick("/mp3/Hajoon.mp3")}
             variant="Outlined"
             color="primary"
             sx={{
@@ -76,6 +100,7 @@ const VoiceChoice = () => {
             남자 아이
           </Button>
           <Button
+            onClick={() => handleButtonClick("/mp3/Dain.mp3")}
             variant="Outlined"
             color="primary"
             sx={{
@@ -105,6 +130,7 @@ const VoiceChoice = () => {
           </Button>
         </Box>
       </Box>
+      <audio ref={audioRef} src={audioSource} hidden />
     </>
   );
 };
