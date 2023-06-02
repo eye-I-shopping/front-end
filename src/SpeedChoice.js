@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Box, Button } from "@mui/material";
 import Header from "./components/Header";
@@ -7,6 +7,60 @@ import KeyboardControlKeyOutlinedIcon from "@mui/icons-material/KeyboardControlK
 import KeyboardArrowDownOutlinedIcon from "@mui/icons-material/KeyboardArrowDownOutlined";
 
 const SpeedChoice = () => {
+  const [speed, setSpeed] = useState(1);
+  const audioRef = useRef();
+
+  const speedFiles = {
+    0: "/mp3/feedback_static.mp3", // For initial speed choice
+    1: {
+      decrease: "/mp3/feedback1_decrease.mp3",
+      increase: "/mp3/feedback1_increase.mp3",
+    },
+    2: {
+      decrease: "/mp3/feedback2_decrease.mp3",
+      increase: "/mp3/feedback2_increase.mp3",
+    },
+    3: {
+      decrease: "/mp3/feedback3_decrease.mp3",
+      increase: "/mp3/feedback3_increase.mp3",
+    },
+  };
+
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.src = speedFiles[0];
+      audioRef.current.load();
+      audioRef.current.oncanplaythrough = async () => {
+        try {
+          await audioRef.current.play();
+        } catch (error) {
+          console.error("playback error", error);
+        }
+      };
+    }
+  }, []);
+
+  const handleSpeedChange = (direction) => {
+    if (direction === "increase" && speed < 3) {
+      setSpeed(speed + 1);
+    } else if (direction === "decrease" && speed > 1) {
+      setSpeed(speed - 1);
+    }
+
+    let newAudioFile = speedFiles[speed][direction];
+    if (audioRef.current) {
+      audioRef.current.src = newAudioFile;
+      audioRef.current.load();
+      audioRef.current.oncanplaythrough = async () => {
+        try {
+          await audioRef.current.play();
+        } catch (error) {
+          console.error("playback error", error);
+        }
+      };
+    }
+  };
+
   return (
     <>
       <Header
@@ -32,7 +86,7 @@ const SpeedChoice = () => {
               'b b'
               'c c'
             `,
-            gridGap: "5px",
+            gridGap: "20px",
             padding: "30px",
             borderRadius: "40px 40px 0 0",
             width: "70%",
@@ -42,29 +96,31 @@ const SpeedChoice = () => {
           }}
         >
           <IconButton
+            onClick={() => handleSpeedChange("increase")}
             sx={{
               color: "white",
               position: "resolve",
               justifyContent: "center",
               gridArea: "a",
-              borderRadius: "0",
+              borderRadius: "25px",
             }}
           >
             <KeyboardControlKeyOutlinedIcon
-              sx={{ fontSize: "calc(15vw + 15vh)" }}
+              sx={{ fontSize: "calc(7vw + 7vh)" }}
             />
           </IconButton>
           <IconButton
+            onClick={() => handleSpeedChange("decrease")}
             sx={{
               color: "white",
               position: "resolve",
               justifyContent: "center",
               gridArea: "b",
-              borderRadius: "0",
+              borderRadius: "25px",
             }}
           >
             <KeyboardArrowDownOutlinedIcon
-              sx={{ fontSize: "calc(15vw + 15vh)" }}
+              sx={{ fontSize: "calc(7vw + 7vh)" }}
             />
           </IconButton>
           <Button
@@ -83,6 +139,7 @@ const SpeedChoice = () => {
           </Button>
         </Box>
       </Box>
+      <audio ref={audioRef} autoPlay />
     </>
   );
 };
