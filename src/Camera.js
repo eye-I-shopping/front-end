@@ -1,14 +1,24 @@
 import React, { useRef, useEffect, useState } from "react";
-import { Drawer, Button, List, ListItem, ListItemText } from "@mui/material";
-import { Menu as MenuIcon } from "@mui/icons-material";
+import { Link } from "react-router-dom";
+import { AppBar, Toolbar, Button } from "@mui/material";
+import {
+  HelpOutline as HelpIcon,
+  SettingsVoice as VoiceSettingIcon,
+} from "@mui/icons-material";
 import "./Camera.css";
 import axios from "axios";
+import HelpBox from "./components/HelpBox";
 
 function Camera() {
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [imageData, setImageData] = useState(null);
+  const [TTSAudio, setTTSAudio] = useState(null);
+  const [isHelpBoxVisible, setIsHelpBoxVisible] = useState(false);
+
+  const handleHelpClick = () => {
+    setIsHelpBoxVisible(!isHelpBoxVisible);
+  };
 
   const captureImage = () => {
     const canvas = canvasRef.current;
@@ -30,13 +40,17 @@ function Camera() {
     formData.append("image", blob);
 
     axios
-      .post("http://localhost:5000/v1/object-detection/yolov5", formData, {
+      .post("https://eyeishopping.shop/", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       })
       .then((response) => {
         console.log(response);
+        console.log(response.data[0].name);
+        if (response.data.length > 0) {
+          // playTTS(response.data[0].name);
+        }
       })
       .catch((error) => {
         console.log(error);
@@ -55,6 +69,30 @@ function Camera() {
     return blob;
   };
 
+  const playTTS = (tempReadingText) => {
+    const formData = new FormData();
+    formData.append("speaker", "nkyunglee");
+    formData.append("text", tempReadingText);
+
+    axios
+      .post("/tts-premium/v1/tts", formData, {
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+          "X-NCP-APIGW-API-KEY-ID": "ph9wqvtot6",
+          "X-NCP-APIGW-API-KEY": "ZchMYX2neSv2fc4kAL1915MVFBUJ9FZfstip5ITQ",
+        },
+        responseType: "blob",
+      })
+      .then((response) => {
+        console.log(response);
+        const audios = URL.createObjectURL(response.data);
+        setTTSAudio(audios);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   useEffect(() => {
     const constraints = { video: { facingMode: "environment" } };
 
@@ -70,60 +108,51 @@ function Camera() {
       });
   }, []);
 
-  const toggleMenu = () => {
-    setIsMenuOpen((prevIsMenuOpen) => !prevIsMenuOpen);
-  };
-
-  const handleCloseMenu = () => {
-    setIsMenuOpen(false);
-  };
-
   return (
     <div className="camera">
-      <video ref={videoRef} autoPlay={true} />
-      <canvas ref={canvasRef} style={{ display: "none" }} />
-      <div className="camera-controls">
-        <Button variant="contained" color="primary" onClick={captureImage}>
-          Capture
-        </Button>
-        <Button
-          variant="contained"
-          color="primary"
-          startIcon={<MenuIcon />}
-          onClick={toggleMenu}
-        >
-          Menu
-        </Button>
-        {imageData && (
-          <Button
-            sx={{}}
-            variant="contained"
-            color="primary"
-            href={imageData}
-            download="capture.png"
-          >
-            Download Capture
-          </Button>
-        )}
-        <Drawer anchor="right" open={isMenuOpen} onClose={handleCloseMenu}>
-          <List>
-            <ListItem>
-              <ListItemText primary="보이스선택" />
-            </ListItem>
-            <ListItem>
-              <ListItemText primary="음향설정" />
-            </ListItem>
-            <ListItem>
-              <ListItemText primary="사용설명" />
-            </ListItem>
-          </List>
-          <Button variant="contained" color="primary" onClick={handleCloseMenu}>
-            Close Menu
-          </Button>
-        </Drawer>
+      <AppBar
+        position="static"
+        color="transparent"
+        elevation={0}
+        className="appbar"
+      >
+        <Toolbar className="toolbar">
+          <div className="toolbar-button">
+            <Button
+              onClick={handleHelpClick}
+              sx={{ height: "10vh", width: "50vw" }}
+              color="inherit"
+              startIcon={<HelpIcon />}
+            >
+              사용방법
+            </Button>
+          </div>
+          <div className="toolbar-button">
+            <Button
+              component={Link}
+              to="/splashImage/voiceChoice"
+              sx={{ height: "10vh", width: "50vw" }}
+              color="inherit"
+              startIcon={<VoiceSettingIcon />}
+            >
+              음성 설정
+            </Button>
+          </div>
+        </Toolbar>
+      </AppBar>
+      <audio controls src={TTSAudio} className="audio" autoPlay />
+      <div className="camera-view">
+        <video ref={videoRef} autoPlay={true} playsInline={true} />
       </div>
+      <div className="capture-area" onClick={captureImage} />
+      {imageData}
+      <canvas ref={canvasRef} style={{ display: "none" }} />
+      {isHelpBoxVisible && (
+        <div>
+          <HelpBox />
+        </div>
+      )}
     </div>
   );
 }
-
 export default Camera;

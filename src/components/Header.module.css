@@ -1,0 +1,17 @@
+.header {
+  display: flex;
+  align-items: center;
+  padding: 0;
+  border-bottom: 2px solid black;
+}
+
+.logo {
+  height: 125px; /* Adjust as needed */
+  width: 125px; /* Adjust as needed */
+  position: relative;
+  margin-right: auto;
+}
+
+.skipButtonContainer {
+  margin-left: auto;
+}
