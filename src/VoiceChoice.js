@@ -10,7 +10,7 @@ const VoiceChoice = () => {
 
   const handleButtonClick = (audioFile, speaker) => {
     setAudioSource(audioFile);
-    sessionStorage.setItem("speaker", speaker); // 세션 스토리지에 저장
+    sessionStorage.setItem("speaker", speaker);
     if (audioRef.current) {
       audioRef.current.src = audioFile;
       audioRef.current.load();
@@ -28,6 +28,7 @@ const VoiceChoice = () => {
     const speaker = sessionStorage.getItem("speaker");
     console.log(speaker);
   }
+
   return (
     <>
       <Header
@@ -82,7 +83,7 @@ const VoiceChoice = () => {
           </Button>
           <Button
             onClick={() => handleButtonClick("/mp3/Mikyung.mp3", "mikyung")}
-            variant="contained" // 어떤지 물어보기 (버튼 강조)
+            variant="contained"
             color="inherit"
             sx={{
               backgroundColor: "lightgray",
@@ -123,11 +124,11 @@ const VoiceChoice = () => {
             여자 아이
           </Button>
           <Button
+            onClick={handleSave}
             variant="Outlined"
             color="primary"
             component={Link}
             to="/splashImage/voiceChoice/speedChoice"
-            onClick={handleSave}
             sx={{
               backgroundColor: "white",
               borderRadius: "25px",
