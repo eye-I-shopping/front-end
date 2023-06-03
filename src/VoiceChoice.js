@@ -27,13 +27,13 @@ const VoiceChoice = () => {
   const handleSave = () => {
     const speaker = sessionStorage.getItem("speaker");
     console.log(speaker);
-  }
+  };
 
   return (
     <>
       <Header
         title="음성 선택"
-        skipLink="/splashImage/voiceChoice/speedChoice"
+        skipLink="/splashImage/custom/voiceChoice/speedChoice"
         skipOnClick={() => {
           handleButtonClick("", "jinho");
           handleSave();
@@ -128,7 +128,7 @@ const VoiceChoice = () => {
             variant="Outlined"
             color="primary"
             component={Link}
-            to="/splashImage/voiceChoice/speedChoice"
+            to="/splashImage/custom/voiceChoice/speedChoice"
             sx={{
               backgroundColor: "white",
               borderRadius: "25px",

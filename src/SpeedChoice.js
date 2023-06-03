@@ -26,6 +26,7 @@ const SpeedChoice = () => {
     },
   };
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (audioRef.current) {
       audioRef.current.src = speedFiles[0];
@@ -38,7 +39,7 @@ const SpeedChoice = () => {
         }
       };
     }
-  }, []);
+  }, [speedFiles]);
 
   const handleSpeedChange = (direction) => {
     if (direction === "increase" && speed < 3) {
@@ -65,7 +66,7 @@ const SpeedChoice = () => {
     <>
       <Header
         title="음성 속도 조절"
-        skipLink="/splashImage/voiceChoice/speedChoice/camera"
+        skipLink="/splashImage/custom/voiceChoice/speedChoice/camera"
       />
       <Box
         sx={{
@@ -126,7 +127,7 @@ const SpeedChoice = () => {
           <Button
             variant="Outlined"
             component={Link}
-            to="/splashImage/voiceChoice/speedChoice/camera"
+            to="/splashImage/custom/voiceChoice/speedChoice/camera"
             sx={{
               backgroundColor: "white",
               borderRadius: "25px",

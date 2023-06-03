@@ -49,7 +49,7 @@ function Camera() {
         console.log(response);
         console.log(response.data[0].name);
         if (response.data.length > 0) {
-          // playTTS(response.data[0].name);
+          playTTS(response.data[0].name);
         }
       })
       .catch((error) => {
@@ -130,7 +130,7 @@ function Camera() {
           <div className="toolbar-button">
             <Button
               component={Link}
-              to="/splashImage/voiceChoice"
+              to="/splashImage/custom/voiceChoice"
               sx={{ height: "10vh", width: "50vw" }}
               color="inherit"
               startIcon={<VoiceSettingIcon />}
