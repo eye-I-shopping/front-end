@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import Header from "./components/Header";
+import CameraCustom from "./CameraCustom";
 
 const VoiceChoice = () => {
   const [audioSource, setAudioSource] = useState("");
@@ -33,7 +34,7 @@ const VoiceChoice = () => {
     <>
       <Header
         title="맞춤 정보 설정"
-        skipLink="/splashImage/custom/voiceChoice"
+        skipLink="/splashImage/custom/voiceChoice/speedChoice/camera"
         skipOnClick={() => {
           handleButtonClick("", "jinho");
           handleSave();

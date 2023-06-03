@@ -8,6 +8,8 @@ import {
 import "./Camera.css";
 import axios from "axios";
 import HelpBox from "./components/HelpBox";
+import WidgetsIcon from "@mui/icons-material/Widgets";
+import CameraCustom from "./CameraCustom";
 
 function Camera() {
   const videoRef = useRef(null);
@@ -119,19 +121,31 @@ function Camera() {
         <Toolbar className="toolbar">
           <div className="toolbar-button">
             <Button
+              component={Link}
+              to="/splashImage/CameraCustom"
+              sx={{ height: "10vh", width: "33vw" }}
+              color="inherit"
+              startIcon={<WidgetsIcon />}
+            >
+              맞춤 정보 설정
+            </Button>
+          </div>
+          <div className="toolbar-button">
+            <Button
               onClick={handleHelpClick}
-              sx={{ height: "10vh", width: "50vw" }}
+              sx={{ height: "10vh", width: "34vw" }}
               color="inherit"
               startIcon={<HelpIcon />}
             >
               사용방법
             </Button>
           </div>
+
           <div className="toolbar-button">
             <Button
               component={Link}
               to="/splashImage/custom/voiceChoice"
-              sx={{ height: "10vh", width: "50vw" }}
+              sx={{ height: "10vh", width: "33vw" }}
               color="inherit"
               startIcon={<VoiceSettingIcon />}
             >
