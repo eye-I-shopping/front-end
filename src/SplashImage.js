@@ -28,20 +28,20 @@ function SplashImage() {
         if (data) {
           console.log(response.data);
           setTimeout(() => {
-            navigate("/splashImage/voiceChoice/speedChoice/camera", {
+            navigate("/splashImage/custom/voiceChoice/speedChoice/camera", {
               replace: true,
             });
           }, 2000);
         } else {
           setTimeout(() => {
-            navigate("/splashImage/voiceChoice", { replace: true });
+            navigate("/splashImage/custom", { replace: true });
           }, 2000);
         }
       })
       .catch((error) => {
         console.log(error);
         setTimeout(() => {
-          navigate("/splashImage/voiceChoice", { replace: true });
+          navigate("/splashImage/custom", { replace: true });
         }, 2000);
       });
   }, [navigate]);

@@ -32,8 +32,8 @@ const VoiceChoice = () => {
   return (
     <>
       <Header
-        title="음성 선택"
-        skipLink="/splashImage/custom/voiceChoice/speedChoice"
+        title="맞춤 정보 설정"
+        skipLink="/splashImage/custom/voiceChoice"
         skipOnClick={() => {
           handleButtonClick("", "jinho");
           handleSave();
@@ -128,7 +128,7 @@ const VoiceChoice = () => {
             variant="Outlined"
             color="primary"
             component={Link}
-            to="/splashImage/custom/voiceChoice/speedChoice"
+            to="/splashImage/custom/voiceChoice"
             sx={{
               backgroundColor: "white",
               borderRadius: "25px",
