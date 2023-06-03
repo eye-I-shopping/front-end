@@ -9,7 +9,6 @@ import "./Camera.css";
 import axios from "axios";
 import HelpBox from "./components/HelpBox";
 import WidgetsIcon from "@mui/icons-material/Widgets";
-import CameraCustom from "./CameraCustom";
 
 function Camera() {
   const videoRef = useRef(null);
@@ -122,7 +121,7 @@ function Camera() {
           <div className="toolbar-button">
             <Button
               component={Link}
-              to="/splashImage/CameraCustom"
+              to="/splashImage/custom/voiceChoice/speedChoice/camera/cameraCustom"
               sx={{ height: "10vh", width: "33vw" }}
               color="inherit"
               startIcon={<WidgetsIcon />}

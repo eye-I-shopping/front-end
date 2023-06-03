@@ -5,6 +5,7 @@ import Custom from "./Custom";
 import VoiceChoice from "./VoiceChoice";
 import SpeedChoice from "./SpeedChoice";
 import Camera from "./Camera";
+import CameraCustom from "./CameraCustom";
 
 function App() {
   return (
@@ -20,6 +21,10 @@ function App() {
       <Route
         path="/splashImage/custom/voiceChoice/speedChoice/camera"
         element={<Camera />}
+      />
+      <Route
+        path="/splashImage/custom/voiceChoice/speedChoice/camera/cameraCustom"
+        element={<CameraCustom />}
       />
     </Routes>
   );
