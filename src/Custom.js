@@ -25,7 +25,10 @@ const Custom = () => {
 
   return (
     <>
-      <Header title="맞춤 정보 설정" skipLink="/splashImage/custom/voiceChoice" />
+      <Header
+        title="맞춤 정보 설정"
+        skipLink="/splashImage/custom/voiceChoice"
+      />
       <Box
         sx={{
           display: "flex",
