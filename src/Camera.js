@@ -1,4 +1,5 @@
 import React, { useRef, useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { AppBar, Toolbar, Button } from "@mui/material";
 import {
   HelpOutline as HelpIcon,
@@ -6,11 +7,18 @@ import {
 } from "@mui/icons-material";
 import "./Camera.css";
 import axios from "axios";
+import HelpBox from "./components/HelpBox";
 
 function Camera() {
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
   const [imageData, setImageData] = useState(null);
+  const [TTSAudio, setTTSAudio] = useState(null);
+  const [isHelpBoxVisible, setIsHelpBoxVisible] = useState(false);
+
+  const handleHelpClick = () => {
+    setIsHelpBoxVisible(!isHelpBoxVisible);
+  };
 
   const captureImage = () => {
     const canvas = canvasRef.current;
@@ -31,18 +39,6 @@ function Camera() {
     const formData = new FormData();
     formData.append("image", blob);
 
-    // axios
-    //   .post("http://192.168.196.233:80/api/test2", formData, {
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //   })
-    //   .then((response) => {
-    //     console.log(response);
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //   });
     axios
       .post("https://eyeishopping.shop/", formData, {
         headers: {
@@ -51,6 +47,10 @@ function Camera() {
       })
       .then((response) => {
         console.log(response);
+        console.log(response.data[0].name);
+        if (response.data.length > 0) {
+          // playTTS(response.data[0].name);
+        }
       })
       .catch((error) => {
         console.log(error);
@@ -69,6 +69,30 @@ function Camera() {
     return blob;
   };
 
+  const playTTS = (tempReadingText) => {
+    const formData = new FormData();
+    formData.append("speaker", "nkyunglee");
+    formData.append("text", tempReadingText);
+
+    axios
+      .post("/tts-premium/v1/tts", formData, {
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+          "X-NCP-APIGW-API-KEY-ID": "ph9wqvtot6",
+          "X-NCP-APIGW-API-KEY": "ZchMYX2neSv2fc4kAL1915MVFBUJ9FZfstip5ITQ",
+        },
+        responseType: "blob",
+      })
+      .then((response) => {
+        console.log(response);
+        const audios = URL.createObjectURL(response.data);
+        setTTSAudio(audios);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   useEffect(() => {
     const constraints = { video: { facingMode: "environment" } };
 
@@ -83,6 +107,7 @@ function Camera() {
         console.error("An error occurred: " + err);
       });
   }, []);
+
   return (
     <div className="camera">
       <AppBar
@@ -94,6 +119,7 @@ function Camera() {
         <Toolbar className="toolbar">
           <div className="toolbar-button">
             <Button
+              onClick={handleHelpClick}
               sx={{ height: "10vh", width: "50vw" }}
               color="inherit"
               startIcon={<HelpIcon />}
@@ -103,6 +129,8 @@ function Camera() {
           </div>
           <div className="toolbar-button">
             <Button
+              component={Link}
+              to="/splashImage/voiceChoice"
               sx={{ height: "10vh", width: "50vw" }}
               color="inherit"
               startIcon={<VoiceSettingIcon />}
@@ -112,21 +140,19 @@ function Camera() {
           </div>
         </Toolbar>
       </AppBar>
+      <audio controls src={TTSAudio} className="audio" autoPlay />
       <div className="camera-view">
         <video ref={videoRef} autoPlay={true} playsInline={true} />
       </div>
       <div className="capture-area" onClick={captureImage} />
-      {imageData && (
-        <a
-          href={imageData}
-          download="capture.png"
-          style={{ display: "none" }}
-          ref={(link) => link && link.click()}
-        />
-      )}
+      {imageData}
       <canvas ref={canvasRef} style={{ display: "none" }} />
+      {isHelpBoxVisible && (
+        <div>
+          <HelpBox />
+        </div>
+      )}
     </div>
   );
 }
-
 export default Camera;

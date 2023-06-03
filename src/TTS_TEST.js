@@ -4,6 +4,10 @@ import axios from "axios";
 function TTS() {
   const [TTSAudio, setTTSAudio] = useState(null);
 
+  const audioStyle = {
+    display: "none",
+  };
+
   const handleClick = () => {
     const formData = new FormData();
     formData.append("speaker", "nkyunglee");
@@ -32,9 +36,7 @@ function TTS() {
     <div>
       TTS TEST
       <button onClick={handleClick}>Play TTS</button>
-      <audio controls src={TTSAudio}>
-        Your browser does not support the audio element.
-      </audio>
+      <audio controls src={TTSAudio} style={audioStyle} autoPlay />
     </div>
   );
 }
