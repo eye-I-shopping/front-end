@@ -1,44 +1,33 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import Header from "./components/Header";
-import CameraCustom from "./CameraCustom";
+import Switch from "@mui/material/Switch";
+import FormControlLabel from "@mui/material/FormControlLabel";
 
-const VoiceChoice = () => {
-  const [audioSource, setAudioSource] = useState("");
-  const audioRef = useRef();
+const Custom = () => {
+  const [infoChoice, setInfoChoice] = useState({
+    taste: false,
+    allergy: false,
+    package: false,
+    cooking: false,
+  });
 
-  const handleButtonClick = (audioFile, speaker) => {
-    setAudioSource(audioFile);
-    sessionStorage.setItem("speaker", speaker);
-    if (audioRef.current) {
-      audioRef.current.src = audioFile;
-      audioRef.current.load();
-      audioRef.current.oncanplaythrough = async () => {
-        try {
-          await audioRef.current.play();
-        } catch (error) {
-          console.error("playback error", error);
-        }
-      };
-    }
+  const handleChange = (event) => {
+    setInfoChoice({ ...infoChoice, [event.target.name]: event.target.checked });
   };
 
   const handleSave = () => {
-    const speaker = sessionStorage.getItem("speaker");
-    console.log(speaker);
+    console.log(infoChoice);
+    // TODO: Save to session storage or send to server
   };
 
   return (
     <>
       <Header
         title="맞춤 정보 설정"
-        skipLink="/splashImage/custom/voiceChoice/speedChoice/camera"
-        skipOnClick={() => {
-          handleButtonClick("", "jinho");
-          handleSave();
-        }}
+        skipLink="/splashImage/custom/voiceChoice"
       />
       <Box
         sx={{
@@ -53,12 +42,8 @@ const VoiceChoice = () => {
         <Box
           sx={{
             display: "grid",
-            gridTemplateColumns: "repeat(2, 1fr)",
-            gridTemplateAreas: `
-              'a b'
-              'c d'
-              'e e'
-            `,
+            gridTemplateColumns: "repeat(1, 1fr)",
+            gridTemplateRows: "repeat(5, 1fr)",
             gridGap: "20px",
             padding: "30px",
             borderRadius: "40px 40px 0 0",
@@ -68,72 +53,107 @@ const VoiceChoice = () => {
             backgroundColor: "#977CC9",
           }}
         >
-          <Button
-            onClick={() => handleButtonClick("/mp3/Jinho.mp3", "jinho")}
-            variant="Outlined"
-            color="primary"
+          <Box
             sx={{
-              fontSize: "calc(1.5vw + 1.5vh)",
-              backgroundColor: "lightgray",
+              border: "2px solid white",
               borderRadius: "25px",
-              gridArea: "a",
-              color: "black",
+              padding: "10px",
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
             }}
           >
-            성인 남성
-          </Button>
-          <Button
-            onClick={() => handleButtonClick("/mp3/Mikyung.mp3", "mikyung")}
-            variant="contained"
-            color="inherit"
+            <FormControlLabel
+              control={
+                <Switch
+                  checked={infoChoice.taste}
+                  onChange={handleChange}
+                  name="taste"
+                  color="primary"
+                />
+              }
+              label="맛 정보 확인"
+              labelPlacement="start"
+            />
+          </Box>
+          <Box
             sx={{
-              backgroundColor: "lightgray",
+              border: "2px solid white",
               borderRadius: "25px",
-              gridArea: "b",
-              color: "black",
-              fontSize: "calc(1.5vw + 1.5vh)",
+              padding: "10px",
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
             }}
           >
-            성인 여성
-          </Button>
-          <Button
-            onClick={() => handleButtonClick("/mp3/Hajoon.mp3", "hajoon")}
-            variant="Outlined"
-            color="primary"
+            <FormControlLabel
+              control={
+                <Switch
+                  checked={infoChoice.allergy}
+                  onChange={handleChange}
+                  name="allergy"
+                  color="primary"
+                />
+              }
+              label="알레르기 정보 확인"
+              labelPlacement="start"
+            />
+          </Box>
+          <Box
             sx={{
-              backgroundColor: "lightgray",
+              border: "2px solid white",
               borderRadius: "25px",
-              gridArea: "c",
-              color: "black",
-              fontSize: "calc(1.5vw + 1.5vh)",
+              padding: "10px",
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
             }}
           >
-            남자 아이
-          </Button>
-          <Button
-            onClick={() => handleButtonClick("/mp3/Dain.mp3", "dain")}
-            variant="Outlined"
-            color="primary"
+            <FormControlLabel
+              control={
+                <Switch
+                  checked={infoChoice.package}
+                  onChange={handleChange}
+                  name="package"
+                  color="primary"
+                />
+              }
+              label="포장 형태 확인"
+              labelPlacement="start"
+            />
+          </Box>
+          <Box
             sx={{
-              backgroundColor: "lightgray",
+              border: "2px solid white",
               borderRadius: "25px",
-              gridArea: "d",
-              color: "black",
-              fontSize: "calc(1.5vw + 1.5vh)",
+              padding: "10px",
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
             }}
           >
-            여자 아이
-          </Button>
+            <FormControlLabel
+              control={
+                <Switch
+                  checked={infoChoice.cooking}
+                  onChange={handleChange}
+                  name="cooking"
+                  color="primary"
+                />
+              }
+              label="조리방법 및 주의사항 확인"
+              labelPlacement="start"
+            />
+          </Box>
           <Button
             onClick={handleSave}
-            variant="Outlined"
+            variant="outlined"
             color="primary"
             component={Link}
             to="/splashImage/custom/voiceChoice"
             sx={{
               backgroundColor: "white",
               borderRadius: "25px",
-              gridArea: "e",
               color: "black",
               fontSize: "calc(1.5vw + 1.5vh)",
             }}
@@ -142,9 +162,8 @@ const VoiceChoice = () => {
           </Button>
         </Box>
       </Box>
-      <audio ref={audioRef} src={audioSource} hidden />
     </>
   );
 };
 
-export default VoiceChoice;
+export default Custom;
