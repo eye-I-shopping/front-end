@@ -72,18 +72,24 @@ function Camera() {
 
   const playTTS = (tempReadingText) => {
     const formData = new FormData();
-    formData.append("speaker", "nkyunglee");
+    formData.append("speaker", "nes_c_mikyung");
     formData.append("text", tempReadingText);
 
+    //https://cors-anywhere.herokuapp.com/https://naveropenapi.apigw.ntruss.com/tts-premium/v1/tts
     axios
-      .post("/tts-premium/v1/tts", formData, {
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-          "X-NCP-APIGW-API-KEY-ID": "ph9wqvtot6",
-          "X-NCP-APIGW-API-KEY": "ZchMYX2neSv2fc4kAL1915MVFBUJ9FZfstip5ITQ",
-        },
-        responseType: "blob",
-      })
+      .post(
+        "https://cors.bridged.cc/https://naveropenapi.apigw.ntruss.com/tts-premium/v1/tts",
+        formData,
+        {
+          headers: {
+            "x-cors-api-key": "temp_43175142e5f2685eac1bfb5548c01de8",
+            "Content-Type": "application/x-www-form-urlencoded",
+            "X-NCP-APIGW-API-KEY-ID": "ph9wqvtot6",
+            "X-NCP-APIGW-API-KEY": "ZchMYX2neSv2fc4kAL1915MVFBUJ9FZfstip5ITQ",
+          },
+          responseType: "blob",
+        }
+      )
       .then((response) => {
         console.log(response);
         const audios = URL.createObjectURL(response.data);
