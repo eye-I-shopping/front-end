@@ -31,8 +31,15 @@ const Custom = () => {
   };
 
   const handleSave = () => {
-    console.log(infoChoice);
-    sessionStorage.setItem("userSettings", JSON.stringify(infoChoice));
+    const tasteValue = infoChoice.taste ? 1 : 0;
+    const allergyValue = infoChoice.allergy ? 2 : 0;
+    const packageValue = infoChoice.package ? 4 : 0;
+    const cookingValue = infoChoice.cooking ? 8 : 0;
+
+    const userSettings =
+      tasteValue + allergyValue + packageValue + cookingValue;
+
+    sessionStorage.setItem("userSettings", userSettings);
   };
 
   const BoxOption = ({ name, icon, label }) => (
