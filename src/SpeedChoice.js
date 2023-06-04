@@ -1,16 +1,17 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { Box, Button } from "@mui/material";
 import Header from "./components/Header";
 import IconButton from "@mui/material/IconButton";
 import KeyboardControlKeyOutlinedIcon from "@mui/icons-material/KeyboardControlKeyOutlined";
 import KeyboardArrowDownOutlinedIcon from "@mui/icons-material/KeyboardArrowDownOutlined";
+import axios from "axios";
 
 const SpeedChoice = () => {
   const [speed, setSpeed] = useState(1);
   const audioRef = useRef();
 
-  const speedFiles = {
+  const speedFiles = useMemo(() => ({
     0: "/mp3/feedback_static.mp3", // For initial speed choice
     1: {
       decrease: "/mp3/feedback1_decrease.mp3",
@@ -24,9 +25,8 @@ const SpeedChoice = () => {
       decrease: "/mp3/feedback3_decrease.mp3",
       increase: "/mp3/feedback3_increase.mp3",
     },
-  };
+  }), []);
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (audioRef.current) {
       audioRef.current.src = speedFiles[0];
@@ -61,6 +61,25 @@ const SpeedChoice = () => {
       };
     }
   };
+
+  // 세션 스토리지 저장 및 전송
+  const handleSave = async () => {
+    sessionStorage.setItem("speed", speed);
+
+    const data = {
+      id: sessionStorage.getItem("id"),
+      userSettings: sessionStorage.getItem("userSettings"),
+      speaker: sessionStorage.getItem("speaker"),
+      speed: sessionStorage.getItem("speed"),
+    };
+
+    try {
+      const response = await axios.post("http://192.168.0.10:80/settings", data);
+      console.log(response);
+    } catch (error) {
+      console.error("Error sending data to the server", error);
+    }
+  }
 
   return (
     <>
@@ -128,6 +147,7 @@ const SpeedChoice = () => {
             variant="Outlined"
             component={Link}
             to="/splashImage/custom/voiceChoice/speedChoice/camera"
+            onClick={handleSave}
             sx={{
               backgroundColor: "white",
               borderRadius: "25px",

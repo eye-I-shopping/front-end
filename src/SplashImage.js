@@ -8,17 +8,19 @@ function SplashImage() {
   const [data, setData] = useState(null);
   const navigate = useNavigate();
 
-  const formData = new FormData();
-  formData.append("id", "temp");
-
   useEffect(() => {
+    let phoneToken;
     if (window.BRIDGE !== undefined) {
-      let phoneToken = window.BRIDGE.sendToken();
+      phoneToken = window.BRIDGE.sendToken();
       alert(phoneToken);
+      sessionStorage.setItem("token", phoneToken);
     }
 
+    const formData = new FormData();
+    formData.append("id", "temp"); // formData.append("id", phoneToken);
+
     axios
-      .post("http://192.168.0.10:80/settings", formData, {
+      .post("http://172.30.1.55:8080/settings", formData, {
         headers: {
           "Content-Type": "application/json",
         },
