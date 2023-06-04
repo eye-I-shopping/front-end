@@ -11,21 +11,24 @@ const SpeedChoice = () => {
   const [speed, setSpeed] = useState(1);
   const audioRef = useRef();
 
-  const speedFiles = useMemo(() => ({
-    0: "/mp3/feedback_static.mp3", // For initial speed choice
-    1: {
-      decrease: "/mp3/feedback1_decrease.mp3",
-      increase: "/mp3/feedback1_increase.mp3",
-    },
-    2: {
-      decrease: "/mp3/feedback2_decrease.mp3",
-      increase: "/mp3/feedback2_increase.mp3",
-    },
-    3: {
-      decrease: "/mp3/feedback3_decrease.mp3",
-      increase: "/mp3/feedback3_increase.mp3",
-    },
-  }), []);
+  const speedFiles = useMemo(
+    () => ({
+      0: "/mp3/feedback_static.mp3", // For initial speed choice
+      1: {
+        decrease: "/mp3/feedback1_decrease.mp3",
+        increase: "/mp3/feedback1_increase.mp3",
+      },
+      2: {
+        decrease: "/mp3/feedback2_decrease.mp3",
+        increase: "/mp3/feedback2_increase.mp3",
+      },
+      3: {
+        decrease: "/mp3/feedback3_decrease.mp3",
+        increase: "/mp3/feedback3_increase.mp3",
+      },
+    }),
+    []
+  );
 
   useEffect(() => {
     if (audioRef.current) {
@@ -63,23 +66,36 @@ const SpeedChoice = () => {
   };
 
   // 세션 스토리지 저장 및 전송
-  const handleSave = async () => {
-    sessionStorage.setItem("speed", speed);
-
-    const data = {
-      id: sessionStorage.getItem("id"),
-      userSettings: sessionStorage.getItem("userSettings"),
-      speaker: sessionStorage.getItem("speaker"),
-      speed: sessionStorage.getItem("speed"),
-    };
-
+  const handleSave = () => {
     try {
-      const response = await axios.post("http://192.168.0.10:80/settings", data);
-      console.log(response);
+      sessionStorage.setItem("speed", speed);
+      const getId = sessionStorage.getItem("id");
+      const getUserSet = sessionStorage.getItem("userSettings");
+      const getSpeaker = sessionStorage.getItem("speaker");
+      const getSpeed = sessionStorage.getItem("speed");
+
+      const formData = new FormData();
+      formData.append("id", getId);
+      formData.append("filter", getUserSet);
+      formData.append("format", getSpeaker);
+      formData.append("speed", getSpeed);
+
+      axios
+        .post("http://172.30.1.34:8080/settings", formData, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((error) => {
+          console.error("Error sending data to the server", error);
+        });
     } catch (error) {
-      console.error("Error sending data to the server", error);
+      console.error("An error occurred while preparing the request", error);
     }
-  }
+  };
 
   return (
     <>

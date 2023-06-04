@@ -26,7 +26,6 @@ const VoiceChoice = () => {
 
   const handleSave = () => {
     const speaker = sessionStorage.getItem("speaker");
-    console.log(speaker);
   };
 
   return (

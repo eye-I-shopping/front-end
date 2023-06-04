@@ -13,14 +13,14 @@ function SplashImage() {
     if (window.BRIDGE !== undefined) {
       phoneToken = window.BRIDGE.sendToken();
       alert(phoneToken);
-      sessionStorage.setItem("token", phoneToken);
+      sessionStorage.setItem("id", phoneToken);
     }
 
     const formData = new FormData();
-    formData.append("id", "temp"); // formData.append("id", phoneToken);
+    formData.append("id", phoneToken); // formData.append("id", phoneToken);
 
     axios
-      .post("http://172.30.1.55:8080/settings", formData, {
+      .post("http://172.30.1.34:8080/settings", formData, {
         headers: {
           "Content-Type": "application/json",
         },
