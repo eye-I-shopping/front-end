@@ -32,7 +32,7 @@ const Custom = () => {
 
   const handleSave = () => {
     console.log(infoChoice);
-    // TODO: Save to session storage or send to server
+    sessionStorage.setItem("userSettings", JSON.stringify(infoChoice));
   };
 
   const BoxOption = ({ name, icon, label }) => (

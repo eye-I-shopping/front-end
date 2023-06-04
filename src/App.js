@@ -14,18 +14,9 @@ function App() {
       <Route path="/splashImage" element={<SplashImage />} />
       <Route path="/splashImage/custom" element={<Custom />} />
       <Route path="/splashImage/custom/voiceChoice" element={<VoiceChoice />} />
-      <Route
-        path="/splashImage/custom/voiceChoice/speedChoice"
-        element={<SpeedChoice />}
-      />
-      <Route
-        path="/splashImage/custom/voiceChoice/speedChoice/camera"
-        element={<Camera />}
-      />
-      <Route
-        path="/splashImage/custom/voiceChoice/speedChoice/camera/cameraCustom"
-        element={<CameraCustom />}
-      />
+      <Route path="/splashImage/custom/voiceChoice/speedChoice" element={<SpeedChoice />} />
+      <Route path="/splashImage/custom/voiceChoice/speedChoice/camera" element={<Camera />} />
+      <Route path="/splashImage/custom/voiceChoice/speedChoice/camera/cameraCustom" element={<CameraCustom />} />
     </Routes>
   );
 }
