@@ -40,9 +40,8 @@ function Camera() {
     const formData = new FormData();
     formData.append("image", blob);
     formData.append("userSettings", sessionStorage.getItem("userSettings"));
-    console.log(sessionStorage.getItem("userSettings"));
     axios
-      .post("https://eyeshopping.shop/", formData, {
+      .post("https://eyeishopping.shop/", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -50,7 +49,7 @@ function Camera() {
       .then((response) => {
         console.log(response);
         if (response.data.length > 0) {
-          playTTS(response.data[0].name);
+          playTTS(response.data);
         } else {
           playTTS("인식되지 않았습니다.");
         }
