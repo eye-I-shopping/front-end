@@ -87,7 +87,7 @@ const SpeedChoice = () => {
       formData.append("speed", getSpeed);
 
       axios
-        .post("http://172.30.1.34:8080/settings", formData, {
+        .post("http://192.168.0.10:8080/settings", formData, {
           headers: {
             "Content-Type": "application/json",
           },
