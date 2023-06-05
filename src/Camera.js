@@ -9,6 +9,8 @@ import "./Camera.css";
 import axios from "axios";
 import HelpBox from "./components/HelpBox";
 import WidgetsIcon from "@mui/icons-material/Widgets";
+import loadingOn from "./image/loadingOn.png";
+import loadingOff from "./image/loadingOff.png";
 
 function Camera() {
   const videoRef = useRef(null);
@@ -16,6 +18,8 @@ function Camera() {
   const [imageData, setImageData] = useState(null);
   const [TTSAudio, setTTSAudio] = useState(null);
   const [isHelpBoxVisible, setIsHelpBoxVisible] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [loadingImage, setLoadingImage] = useState(loadingOff);
 
   const [isOverlayVisible, setIsOverlayVisible] = useState(false);
   const [overlayMessage, setOverlayMessage] = useState('');
@@ -25,6 +29,8 @@ function Camera() {
   };
 
   const captureImage = () => {
+    setIsLoading(true); // Start loading before API request
+
     const canvas = canvasRef.current;
     const video = videoRef.current;
 
@@ -48,16 +54,34 @@ function Camera() {
         },
       })
       .then((response) => {
-        const message = response.data.length > 0 ? response.data : "인식되지 않았습니다.";
-        setOverlayMessage(message);
-        playTTS(message);
+        console.log(response);
+        setIsLoading(false); // request가 끝나면 로딩 상태를 false로 변경
+        if (response.data.length > 0) {
+          playTTS(response.data);
+        } else {
+          playTTS("인식되지 않았습니다.");
+        }
       })
       .catch((error) => {
         console.log(error);
-        setOverlayMessage("네트워크 연결이 불안합니다.");
-        playTTS("네트워크 연결이 불안합니다.");
+        playTTS("네트워크 연결이 불안정합니다.");
+        setIsLoading(false); // error가 발생해도 로딩 상태를 false로 변경
       });
   };
+  useEffect(() => {
+    let interval;
+    if (isLoading) {
+      playTTS("로딩중입니다.");
+      interval = setInterval(() => {
+        setLoadingImage((prev) =>
+          prev === loadingOn ? loadingOff : loadingOn
+        );
+      }, 1000);
+    } else {
+      setLoadingImage(loadingOff);
+    }
+    return () => clearInterval(interval);
+  }, [isLoading]);
 
   const dataUrltoBlob = (dataURI) => {
     let base64Content = atob(dataURI.split(",")[1]);
@@ -126,6 +150,11 @@ function Camera() {
 
   return (
     <div className="camera">
+      {isLoading && (
+        <div className="loading">
+          <img src={loadingImage} alt="Loading..." className="loading-image" />
+        </div>
+      )}
       <AppBar
         position="static"
         color="transparent"
@@ -178,7 +207,11 @@ function Camera() {
           muted
         />
       </div>
-      <div className="capture-area" onClick={captureImage} />
+      <div
+        className={`capture-area ${isLoading ? "loading" : ""}`}
+        onClick={captureImage}
+      />
+
       {imageData}
       <canvas ref={canvasRef} style={{ display: "none" }} />
       {isHelpBoxVisible && (
