@@ -13,21 +13,40 @@ function SplashImage() {
     if (window.BRIDGE !== undefined) {
       phoneToken = window.BRIDGE.sendToken();
       alert(phoneToken);
-      sessionStorage.setItem("id", phoneToken);
+
+      try {
+        const tokenData = JSON.parse(phoneToken);
+        if (tokenData) {
+          if (tokenData.id) {
+            sessionStorage.setItem("id", tokenData.id);
+          }
+          if (tokenData.userSettings) {
+            sessionStorage.setItem("userSettings", tokenData.userSettings);
+          }
+          if (tokenData.speaker) {
+            sessionStorage.setItem("speaker", tokenData.speaker);
+          }
+          if (tokenData.speed) {
+            sessionStorage.setItem("speed", tokenData.speed);
+          }
+        }
+      } catch (e) {
+        console.error("Failed to parse phoneToken:", e);
+      }
     }
 
     const formData = new FormData();
-    formData.append("id", phoneToken); // formData.append("id", phoneToken);
+    formData.append("id", phoneToken);
 
     axios
-      .post("http://192.168.0.10:8080/settings", formData, {
+      .post("https://eyeshopping.shop/settings", formData, {
         headers: {
           "Content-Type": "application/json",
         },
       })
       .then((response) => {
         setData(response.data);
-        if (data) {
+        if (response.data) {
           console.log(response.data);
           setTimeout(() => {
             navigate("/splashImage/custom/voiceChoice/speedChoice/camera", {
