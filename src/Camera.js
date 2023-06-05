@@ -39,7 +39,8 @@ function Camera() {
     // Create a FormData and append the Blob data
     const formData = new FormData();
     formData.append("image", blob);
-
+    formData.append("userSettings", sessionStorage.getItem("userSettings"));
+    console.log(sessionStorage.getItem("userSettings"));
     axios
       .post("https://eyeshopping.shop/", formData, {
         headers: {
@@ -48,9 +49,10 @@ function Camera() {
       })
       .then((response) => {
         console.log(response);
-        console.log(response.data[0].name);
         if (response.data.length > 0) {
-          //playTTS(response.data[0].name);
+          playTTS(response.data[0].name);
+        } else {
+          playTTS("인식되지 않았습니다.");
         }
       })
       .catch((error) => {
@@ -161,7 +163,13 @@ function Camera() {
       </AppBar>
       <audio controls src={TTSAudio} className="audio" autoPlay />
       <div className="camera-view">
-        <video ref={videoRef} autoPlay={true} playsInline={true} />
+        <video
+          ref={videoRef}
+          autoPlay={true}
+          playsInline={true}
+          preload={"auto"}
+          muted
+        />
       </div>
       <div className="capture-area" onClick={captureImage} />
       {imageData}
