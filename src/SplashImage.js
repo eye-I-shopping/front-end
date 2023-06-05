@@ -20,7 +20,7 @@ function SplashImage() {
     formData.append("id", phoneToken); // formData.append("id", phoneToken);
 
     axios
-      .post("http://192.168.0.10:8080/settings", formData, {
+      .post("https://eyeshopping.shop/settings", formData, {
         headers: {
           "Content-Type": "application/json",
         },
