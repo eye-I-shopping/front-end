@@ -8,7 +8,7 @@ function SplashImage() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    let phoneToken = "testToken12"; // let phoneToken;
+    let phoneToken = "kimkim"; // let phoneToken;
     if (window.BRIDGE !== undefined) {
       phoneToken = window.BRIDGE.sendToken();
       alert(phoneToken);
@@ -18,7 +18,7 @@ function SplashImage() {
     formData.append("id", phoneToken);
 
     axios
-      .post("https://eyeshopping.shop/settings/", formData, {
+      .post("https://eyeshopping.shop/settings/get", formData, {
         headers: {
           "Content-Type": "application/json",
         },
@@ -32,9 +32,9 @@ function SplashImage() {
           if (tokenData.id) {
             sessionStorage.setItem("id", tokenData.id);
           }
-          if (tokenData.userSettings) {
+          if (tokenData.userSettings !== undefined && tokenData.userSettings !== null) {
             sessionStorage.setItem("userSettings", JSON.stringify(tokenData.userSettings));
-          }
+          }        
           if (tokenData.speaker) {
             sessionStorage.setItem("speaker", tokenData.speaker);
           }
@@ -48,7 +48,7 @@ function SplashImage() {
             });
           }, 2000);
         } else {
-          console.log("test1q23");
+          console.log("else 처리 중");
           sessionStorage.setItem("id", phoneToken);
           setTimeout(() => {
             navigate("/splashImage/custom", { replace: true });
