@@ -87,7 +87,7 @@ const SpeedChoice = () => {
       formData.append("speed", getSpeed);
 
       axios
-        .post("http://172.30.1.34:8080/settings", formData, {
+        .post("http://192.168.0.10:8080/settings", formData, {
           headers: {
             "Content-Type": "application/json",
           },
@@ -109,8 +109,8 @@ const SpeedChoice = () => {
         title="음성 속도 조절"
         skipLink="/splashImage/custom/voiceChoice/speedChoice/camera"
         skipOnClick={() => {
-          sessionStorage.setItem("speed", 0);
           handleSave();
+          sessionStorage.setItem("speed", 0);
         }}
       />
       <Box

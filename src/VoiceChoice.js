@@ -35,7 +35,6 @@ const VoiceChoice = () => {
         skipLink="/splashImage/custom/voiceChoice/speedChoice"
         skipOnClick={() => {
           handleButtonClick("", "nes_c_mikyung");
-          handleSave();
         }}
       />
       <Box
