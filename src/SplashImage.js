@@ -46,14 +46,15 @@ function SplashImage() {
       })
       .then((response) => {
         setData(response.data);
-        if (response.data) {
-          console.log(response.data);
+        console.log(response.data);
+        if(data) {
           setTimeout(() => {
             navigate("/splashImage/custom/voiceChoice/speedChoice/camera", {
               replace: true,
             });
           }, 2000);
         } else {
+          sessionStorage.setItem("id", phoneToken);
           setTimeout(() => {
             navigate("/splashImage/custom", { replace: true });
           }, 2000);

@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
@@ -6,11 +6,26 @@ import Header from "./components/Header";
 
 const VoiceChoice = () => {
   const [audioSource, setAudioSource] = useState("");
+  const [speaker, setSpeaker] = useState("");
   const audioRef = useRef();
+
+  useEffect(() => {
+    if(audioRef.current) {
+      audioRef.current.src = "/mp3/voiceChoice.mp3";
+      audioRef.current.load();
+      audioRef.current.oncanplaythrough = async () => {
+        try {
+          await audioRef.current.play();
+        } catch (error) {
+          console.error("playback error", error);
+        }
+      };
+    }
+  }, []);
 
   const handleButtonClick = (audioFile, speaker) => {
     setAudioSource(audioFile);
-    sessionStorage.setItem("speaker", speaker);
+    setSpeaker(speaker);
     if (audioRef.current) {
       audioRef.current.src = audioFile;
       audioRef.current.load();
@@ -25,7 +40,7 @@ const VoiceChoice = () => {
   };
 
   const handleSave = () => {
-    const speaker = sessionStorage.getItem("speaker");
+    sessionStorage.setItem("speaker", speaker);
   };
 
   return (

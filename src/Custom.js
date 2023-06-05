@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import {
   Box,
@@ -19,12 +19,38 @@ const theme = createTheme({
 });
 
 const Custom = () => {
+  const [playFlag, setPlayFlag] = useState(false);
   const [infoChoice, setInfoChoice] = useState({
     taste: false,
     allergy: false,
     package: false,
     cooking: false,
   });
+
+  const audioRef = useRef();
+  useEffect(()=>{
+    const timerId = setTimeout(()=>{
+      setPlayFlag(true);
+    }, 100)
+    return()=>{
+      clearTimeout(timerId);
+    }
+  },[]);
+
+  useEffect(() => {
+     if (playFlag) {
+    const audio = audioRef.current;
+    audio.src = "/mp3/custom.mp3";
+    audio.load();
+    audio.oncanplaythrough = async () => {
+      try {
+        await audio.play();
+      } catch (error) {
+        console.error("playback error", error);
+      }
+    };
+  }
+}, [playFlag, audioRef]);
 
   const handleToggle = (name) => () => {
     setInfoChoice((prev) => ({ ...prev, [name]: !prev[name] }));
@@ -135,6 +161,7 @@ const Custom = () => {
           </Button>
         </Box>
       </Box>
+      <audio ref={audioRef} hidden />
     </ThemeProvider>
   );
 };

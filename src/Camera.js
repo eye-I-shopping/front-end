@@ -42,7 +42,7 @@ function Camera() {
     formData.append("userSettings", sessionStorage.getItem("userSettings"));
     console.log(sessionStorage.getItem("userSettings"));
     axios
-      .post("https://eyeishopping.shop/", formData, {
+      .post("https://eyeshopping.shop/", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
