@@ -41,6 +41,7 @@ const CameraCustom = () => {
       tasteValue + allergyValue + packageValue + cookingValue;
 
     sessionStorage.setItem("userSettings", userSettings);
+    
     const getId = sessionStorage.getItem("id");
     const getUserSet = sessionStorage.getItem("userSettings");
     const getSpeaker = sessionStorage.getItem("speaker");
@@ -48,8 +49,8 @@ const CameraCustom = () => {
 
     const formData = new FormData();
     formData.append("id", getId);
-    formData.append("filter", getUserSet);
-    formData.append("format", getSpeaker);
+    formData.append("userSettings", getUserSet);
+    formData.append("speaker", getSpeaker);
     formData.append("speed", getSpeed);
     axios
       .post("http://192.168.0.10:8080/settings", formData, {

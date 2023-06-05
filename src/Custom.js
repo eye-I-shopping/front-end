@@ -86,7 +86,6 @@ const Custom = () => {
         skipLink="/splashImage/custom/voiceChoice"
         skipOnClick={() => {
           sessionStorage.setItem("userSettings", 0);
-          handleSave();
         }}
       />
       <Box
