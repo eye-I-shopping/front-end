@@ -9,6 +9,7 @@ import {
   ThemeProvider,
 } from "@mui/material";
 import Header from "./components/Header";
+import axios from "axios";
 
 const theme = createTheme({
   palette: {
@@ -18,7 +19,7 @@ const theme = createTheme({
   },
 });
 
-const Custom = () => {
+const CameraCustom = () => {
   const [infoChoice, setInfoChoice] = useState({
     taste: false,
     allergy: false,
@@ -31,8 +32,37 @@ const Custom = () => {
   };
 
   const handleSave = () => {
-    console.log(infoChoice);
-    // TODO: Save to session storage or send to server
+    const tasteValue = infoChoice.taste ? 1 : 0;
+    const allergyValue = infoChoice.allergy ? 2 : 0;
+    const packageValue = infoChoice.package ? 4 : 0;
+    const cookingValue = infoChoice.cooking ? 8 : 0;
+
+    const userSettings =
+      tasteValue + allergyValue + packageValue + cookingValue;
+
+    sessionStorage.setItem("userSettings", userSettings);
+    const getId = sessionStorage.getItem("id");
+    const getUserSet = sessionStorage.getItem("userSettings");
+    const getSpeaker = sessionStorage.getItem("speaker");
+    const getSpeed = sessionStorage.getItem("speed");
+
+    const formData = new FormData();
+    formData.append("id", getId);
+    formData.append("filter", getUserSet);
+    formData.append("format", getSpeaker);
+    formData.append("speed", getSpeed);
+    axios
+      .post("http://192.168.0.10:8080/settings", formData, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log("Error sending data to the server", error);
+      });
   };
 
   const BoxOption = ({ name, icon, label }) => (
@@ -129,4 +159,4 @@ const Custom = () => {
   );
 };
 
-export default Custom;
+export default CameraCustom;
