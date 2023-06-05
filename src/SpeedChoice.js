@@ -32,8 +32,8 @@ const SpeedChoice = () => {
 
   const speedValue = {
     1: 0,
-    2: 3,
-    3: 5
+    2: -3,
+    3: -5
   };
 
   useEffect(() => {

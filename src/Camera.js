@@ -21,6 +21,9 @@ function Camera() {
   const [isLoading, setIsLoading] = useState(false);
   const [loadingImage, setLoadingImage] = useState(loadingOff);
 
+  const [isOverlayVisible, setIsOverlayVisible] = useState(false);
+  const [overlayMessage, setOverlayMessage] = useState('');
+
   const handleHelpClick = () => {
     setIsHelpBoxVisible(!isHelpBoxVisible);
   };
@@ -39,13 +42,11 @@ function Camera() {
     const dataUrl = canvas.toDataURL("image/jpg");
     setImageData(dataUrl);
 
-    // Convert dataUrl to Blob
     const blob = dataUrltoBlob(dataUrl);
-
-    // Create a FormData and append the Blob data
     const formData = new FormData();
     formData.append("image", blob);
     formData.append("userSettings", sessionStorage.getItem("userSettings"));
+    
     axios
       .post("https://eyeishopping.shop/", formData, {
         headers: {
@@ -96,7 +97,8 @@ function Camera() {
 
   const playTTS = (tempReadingText) => {
     const formData = new FormData();
-    formData.append("speaker", "nes_c_mikyung");
+    formData.append("speaker", sessionStorage.getItem('speaker'));
+    formData.append("speed", Number(sessionStorage.getItem('speed')));
     formData.append("text", tempReadingText);
 
     //https://cors-anywhere.herokuapp.com/https://naveropenapi.apigw.ntruss.com/tts-premium/v1/tts
@@ -115,9 +117,16 @@ function Camera() {
         }
       )
       .then((response) => {
-        console.log(response);
         const audios = URL.createObjectURL(response.data);
         setTTSAudio(audios);
+        const audio = new Audio(audios);
+        audio.onended = () => {
+          setIsOverlayVisible(false);
+        };
+        audio.onplay = () => {
+          setIsOverlayVisible(true);
+        };
+        audio.play();
       })
       .catch((error) => {
         console.log(error);
@@ -210,6 +219,27 @@ function Camera() {
           <HelpBox />
         </div>
       )}
+      {isOverlayVisible && (
+        <div style={{
+          position: 'fixed',
+          top: '40%',
+          bottom: '40%',
+          left: '10%',
+          right: '10%',
+          backgroundColor: 'rgba(0, 0, 0, 0.5)',
+          color: 'white',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          borderRadius: '15px',
+          padding: '20px',
+          zIndex: 100,
+          boxSizing: 'border-box',
+          fontSize: "calc(1.5vw + 1.5vh)",
+        }}>
+          {overlayMessage}
+        </div>
+        )}
     </div>
   );
 }
