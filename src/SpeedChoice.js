@@ -109,8 +109,8 @@ const SpeedChoice = () => {
         title="음성 속도 조절"
         skipLink="/splashImage/custom/voiceChoice/speedChoice/camera"
         skipOnClick={() => {
-          sessionStorage.setItem("speed", 0);
           handleSave();
+          sessionStorage.setItem("speed", 0);
         }}
       />
       <Box
