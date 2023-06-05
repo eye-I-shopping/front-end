@@ -84,6 +84,10 @@ const Custom = () => {
       <Header
         title="맞춤 정보 설정"
         skipLink="/splashImage/custom/voiceChoice"
+        skipOnClick={() => {
+          sessionStorage.setItem("userSettings", 0);
+          handleSave();
+        }}
       />
       <Box
         sx={{

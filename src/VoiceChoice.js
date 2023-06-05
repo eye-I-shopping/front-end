@@ -34,7 +34,7 @@ const VoiceChoice = () => {
         title="음성 선택"
         skipLink="/splashImage/custom/voiceChoice/speedChoice"
         skipOnClick={() => {
-          handleButtonClick("", "jinho");
+          handleButtonClick("", "nes_c_mikyung");
           handleSave();
         }}
       />
@@ -81,7 +81,7 @@ const VoiceChoice = () => {
             성인 남성
           </Button>
           <Button
-            onClick={() => handleButtonClick("/mp3/Mikyung.mp3", "mikyung")}
+            onClick={() => handleButtonClick("/mp3/Mikyung.mp3", "nes_c_mikyung")}
             variant="contained"
             color="inherit"
             sx={{
@@ -95,7 +95,7 @@ const VoiceChoice = () => {
             성인 여성
           </Button>
           <Button
-            onClick={() => handleButtonClick("/mp3/Hajoon.mp3", "hajoon")}
+            onClick={() => handleButtonClick("/mp3/Hajoon.mp3", "nhajun")}
             variant="Outlined"
             color="primary"
             sx={{
@@ -109,7 +109,7 @@ const VoiceChoice = () => {
             남자 아이
           </Button>
           <Button
-            onClick={() => handleButtonClick("/mp3/Dain.mp3", "dain")}
+            onClick={() => handleButtonClick("/mp3/Dain.mp3", "ndain")}
             variant="Outlined"
             color="primary"
             sx={{

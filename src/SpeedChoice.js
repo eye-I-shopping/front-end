@@ -30,6 +30,12 @@ const SpeedChoice = () => {
     []
   );
 
+  const speedValue = {
+    1: 0,
+    2: 3,
+    3: 5
+  };
+
   useEffect(() => {
     if (audioRef.current) {
       audioRef.current.src = speedFiles[0];
@@ -65,10 +71,10 @@ const SpeedChoice = () => {
     }
   };
 
-  // 세션 스토리지 저장 및 전송
   const handleSave = () => {
     try {
-      sessionStorage.setItem("speed", speed);
+      sessionStorage.setItem("speed", speedValue[speed]);
+
       const getId = sessionStorage.getItem("id");
       const getUserSet = sessionStorage.getItem("userSettings");
       const getSpeaker = sessionStorage.getItem("speaker");
@@ -76,8 +82,8 @@ const SpeedChoice = () => {
 
       const formData = new FormData();
       formData.append("id", getId);
-      formData.append("filter", getUserSet);
-      formData.append("format", getSpeaker);
+      formData.append("userSettings", getUserSet);
+      formData.append("speaker", getSpeaker);
       formData.append("speed", getSpeed);
 
       axios
@@ -102,6 +108,10 @@ const SpeedChoice = () => {
       <Header
         title="음성 속도 조절"
         skipLink="/splashImage/custom/voiceChoice/speedChoice/camera"
+        skipOnClick={() => {
+          sessionStorage.setItem("speed", 0);
+          handleSave();
+        }}
       />
       <Box
         sx={{
