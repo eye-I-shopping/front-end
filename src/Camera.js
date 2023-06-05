@@ -39,7 +39,8 @@ function Camera() {
     // Create a FormData and append the Blob data
     const formData = new FormData();
     formData.append("image", blob);
-
+    formData.append("userSettings", sessionStorage.getItem("userSettings"));
+    console.log(sessionStorage.getItem("userSettings"));
     axios
       .post("https://eyeishopping.shop/", formData, {
         headers: {
