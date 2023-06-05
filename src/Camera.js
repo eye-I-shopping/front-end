@@ -41,7 +41,7 @@ function Camera() {
     formData.append("image", blob);
 
     axios
-      .post("https://eyeishopping.shop/", formData, {
+      .post("https://eyeshopping.shop/", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },

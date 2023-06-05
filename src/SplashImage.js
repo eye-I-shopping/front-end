@@ -20,21 +20,22 @@ function SplashImage() {
     formData.append("id", phoneToken); // formData.append("id", phoneToken);
 
     axios
-      .post("http://192.168.0.10:8080/settings", formData, {
+      .post("https://eyeshopping.shop/settings", formData, {
         headers: {
           "Content-Type": "application/json",
         },
       })
       .then((response) => {
         setData(response.data);
-        if (data) {
-          console.log(response.data);
+        console.log(response.data);
+        if(data) {
           setTimeout(() => {
             navigate("/splashImage/custom/voiceChoice/speedChoice/camera", {
               replace: true,
             });
           }, 2000);
         } else {
+          sessionStorage.setItem("id", phoneToken);
           setTimeout(() => {
             navigate("/splashImage/custom", { replace: true });
           }, 2000);
