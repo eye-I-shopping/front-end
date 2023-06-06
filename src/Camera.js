@@ -26,18 +26,11 @@ function Camera() {
   const [helpBoxMessage, setHelpBoxMessage] = useState("");
   const [audioSource] = useState("/mp3/camera.mp3");
   const [userInteracted, setUserInteracted] = useState(false);
+  const [isLoadingAudioPlaying, setIsLoadingAudioPlaying] = useState(false);
 
-  const handleUserInteraction = () => {
-    setUserInteracted(true);
-  };
-
-  const playAudio = (stop = false) => {
+  const playAudio = () => {
     if (audioRef.current) {
       audioRef.current.pause();
-      if(!stop){
-        audioRef.current.currentTime = 0;
-        audioRef.current.play();
-      }
     }
   };
 
@@ -48,8 +41,6 @@ function Camera() {
   }, [userInteracted]);
 
   const handleHelpClick = () => {
-    handleUserInteraction();
-
     if (!isHelpBoxVisible) {
       setIsHelpBoxVisible(true);
       setHelpBoxMessage("카메라 화면입니다. 이 화면에서는 카메라를 통해 제품을 촬영하고 음성을 듣는 기능을 사용하실 수 있습니다. 화면 상단에는 세 가지 버튼이 위치해 있습니다. 왼쪽부터 맞춤 정보설정, 사용 방법, 음성 설정 버튼이 있습니다. 화면 하단 50%를 누르면 카메라가 현재 보고 있는 제품을 촬영하여 관련 정보를 음성으로 제공합니다.");
@@ -71,6 +62,11 @@ function Camera() {
   }, [audioSource]);
 
   const captureImage = () => {
+    // 화면이 비활성화 중일 때는 바로 리턴합니다.
+    if (isLoading) {
+      return;
+    }
+
     setIsLoading(true);
 
     const canvas = canvasRef.current;
@@ -106,20 +102,23 @@ function Camera() {
       })
       .catch((error) => {
         console.log(error);
-        playTTS("네트워크 연결이 불안정합니다.");
         setIsLoading(false); // error가 발생해도 로딩 상태를 false로 변경
+        playTTS("네트워크 연결이 불안정합니다.");
       });
   };
+
   useEffect(() => {
     let interval;
     if (isLoading) {
-      playTTS("로딩중입니다.");
+      setIsLoadingAudioPlaying(true);
+      // playTTS("로딩중입니다.");
       interval = setInterval(() => {
         setLoadingImage((prev) =>
           prev === loadingOn ? loadingOff : loadingOn
         );
       }, 1000);
     } else {
+      setIsLoadingAudioPlaying(false);
       setLoadingImage(loadingOff);
     }
     return () => clearInterval(interval);
@@ -138,6 +137,9 @@ function Camera() {
   };
 
   const playTTS = (tempReadingText) => {
+    if(isLoadingAudioPlaying) return;
+
+    setIsLoading(false);
     const formData = new FormData();
     formData.append("speaker", sessionStorage.getItem("speaker"));
     formData.append("speed", Number(sessionStorage.getItem("speed")));
@@ -164,14 +166,18 @@ function Camera() {
         const audio = new Audio(audios);
         audio.onended = () => {
           setIsOverlayVisible(false);
+          setIsLoading(false);
         };
         audio.onplay = () => {
-          setIsOverlayVisible(true);
+          setIsOverlayVisible(!isLoading);
         };
-        audio.play();
+        if (!isLoading) {
+          audio.play();
+        }
       })
       .catch((error) => {
         console.log(error);
+        setIsLoading(false);
       });
   };
 
@@ -191,7 +197,16 @@ function Camera() {
   }, []);
 
   return (
-    <div className="camera">
+    <div 
+      className="camera"
+      onClick={() => {
+        if (isHelpBoxVisible) {
+          playAudio(true); // stop the audio
+          setIsHelpBoxVisible(false); // close the help box
+        }
+        setUserInteracted(!userInteracted); // toggle userInteracted state
+      }}
+    >
       {isLoading && (
         <div className="loading">
           <img src={loadingImage} alt="Loading..." className="loading-image" />
@@ -239,7 +254,13 @@ function Camera() {
           </div>
         </Toolbar>
       </AppBar>
-      <audio controls ref={audioRef} src={audioSource} className="audio" autoPlay />
+      <audio
+        controls
+        ref={audioRef}
+        src={audioSource}
+        className="audio"
+        autoPlay
+      />
       <div className="camera-view">
         <video
           ref={videoRef}
