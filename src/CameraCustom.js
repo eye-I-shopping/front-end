@@ -20,11 +20,14 @@ const theme = createTheme({
 });
 
 const CameraCustom = () => {
+  const userSettings = parseInt(sessionStorage.getItem("userSettings"));
+  let dec = userSettings.toString(2);
+
   const [infoChoice, setInfoChoice] = useState({
-    taste: false,
-    allergy: false,
-    package: false,
-    cooking: false,
+    taste: dec[3] === "1" ? 1 : 0,
+    allergy: dec[2] === "1" ? 1 : 0,
+    package: dec[1] === "1" ? 1 : 0,
+    cooking: dec[0] === "1" ? 1 : 0,
   });
 
   const handleToggle = (name) => () => {
@@ -41,7 +44,7 @@ const CameraCustom = () => {
       tasteValue + allergyValue + packageValue + cookingValue;
 
     sessionStorage.setItem("userSettings", userSettings);
-    
+
     const getId = sessionStorage.getItem("id");
     const getUserSet = sessionStorage.getItem("userSettings");
     const getSpeaker = sessionStorage.getItem("speaker");
