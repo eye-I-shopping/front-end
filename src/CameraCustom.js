@@ -24,10 +24,10 @@ const CameraCustom = () => {
   let dec = userSettings.toString(2);
 
   const [infoChoice, setInfoChoice] = useState({
-    taste: dec[3] === "1" ? 1 : 0,
-    allergy: dec[2] === "1" ? 1 : 0,
-    package: dec[1] === "1" ? 1 : 0,
-    cooking: dec[0] === "1" ? 1 : 0,
+    taste: dec[0] === "1" ? 1 : 0,
+    allergy: dec[1] === "1" ? 1 : 0,
+    package: dec[2] === "1" ? 1 : 0,
+    cooking: dec[3] === "1" ? 1 : 0,
   });
 
   const handleToggle = (name) => () => {
