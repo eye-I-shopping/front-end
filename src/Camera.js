@@ -64,6 +64,7 @@ function Camera() {
   };
 
   const handleAudioEnd = () => {
+    setOverlayMessage("");
     setIsOverlayVisible(false);
   };
 

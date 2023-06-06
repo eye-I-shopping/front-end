@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 
 const OverlayMessage = ({ isVisible, message }) => {
   const typingSpeed = 100; // 한 글자를 타이핑하는데 걸리는 시간(ms)
+
   const [text, setText] = useState("");
 
   useEffect(() => {
