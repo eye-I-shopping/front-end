@@ -6,11 +6,11 @@ import Header from "./components/Header";
 
 const VoiceChoice = () => {
   const [audioSource, setAudioSource] = useState("");
-  const [speaker, setSpeaker] = useState("");
+  const [speaker, setSpeaker] = useState("nes_c_mikyung");
   const audioRef = useRef();
 
   useEffect(() => {
-    if(audioRef.current) {
+    if (audioRef.current) {
       audioRef.current.src = "/mp3/voiceChoice.mp3";
       audioRef.current.load();
       audioRef.current.oncanplaythrough = async () => {
@@ -38,9 +38,14 @@ const VoiceChoice = () => {
       };
     }
   };
-
   const handleSave = () => {
     sessionStorage.setItem("speaker", speaker);
+  };
+
+  const handleSkip = () => {
+    setAudioSource("");
+    setSpeaker("nes_c_mikyung");
+    sessionStorage.setItem("speaker", "nes_c_mikyung");
   };
 
   return (
@@ -48,9 +53,7 @@ const VoiceChoice = () => {
       <Header
         title="음성 선택"
         skipLink="/splashImage/custom/voiceChoice/speedChoice"
-        skipOnClick={() => {
-          handleButtonClick("", "nes_c_mikyung");
-        }}
+        skipOnClick={handleSkip}
       />
       <Box
         sx={{
@@ -95,7 +98,9 @@ const VoiceChoice = () => {
             성인 남성
           </Button>
           <Button
-            onClick={() => handleButtonClick("/mp3/Mikyung.mp3", "nes_c_mikyung")}
+            onClick={() =>
+              handleButtonClick("/mp3/Mikyung.mp3", "nes_c_mikyung")
+            }
             variant="contained"
             color="inherit"
             sx={{

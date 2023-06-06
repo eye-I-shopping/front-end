@@ -88,7 +88,7 @@ function Camera() {
     const formData = new FormData();
     formData.append("image", blob);
     formData.append("userSettings", sessionStorage.getItem("userSettings"));
-    
+
     axios
       .post("https://eyeishopping.shop/", formData, {
         headers: {
@@ -139,8 +139,8 @@ function Camera() {
 
   const playTTS = (tempReadingText) => {
     const formData = new FormData();
-    formData.append("speaker", sessionStorage.getItem('speaker'));
-    formData.append("speed", Number(sessionStorage.getItem('speed')));
+    formData.append("speaker", sessionStorage.getItem("speaker"));
+    formData.append("speed", Number(sessionStorage.getItem("speed")));
     formData.append("text", tempReadingText);
 
     //https://cors-anywhere.herokuapp.com/https://naveropenapi.apigw.ntruss.com/tts-premium/v1/tts
@@ -150,10 +150,10 @@ function Camera() {
         formData,
         {
           headers: {
-            "x-cors-api-key": "temp_43175142e5f2685eac1bfb5548c01de8",
+            "x-cors-api-key": process.env.REACT_APP_X_CORS_API_KEY,
             "Content-Type": "application/x-www-form-urlencoded",
-            "X-NCP-APIGW-API-KEY-ID": "ph9wqvtot6",
-            "X-NCP-APIGW-API-KEY": "ZchMYX2neSv2fc4kAL1915MVFBUJ9FZfstip5ITQ",
+            "X-NCP-APIGW-API-KEY-ID": process.env.REACT_APP_NCP_TTS_ID,
+            "X-NCP-APIGW-API-KEY": process.env.REACT_APP_NCP_TTS_KEY,
           },
           responseType: "blob",
         }
