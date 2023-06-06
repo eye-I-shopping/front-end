@@ -7,29 +7,71 @@ import {
 } from "@mui/icons-material";
 import "./Camera.css";
 import axios from "axios";
-import HelpBox from "./components/HelpBox";
 import WidgetsIcon from "@mui/icons-material/Widgets";
 import loadingOn from "./image/loadingOn.png";
 import loadingOff from "./image/loadingOff.png";
+import OverlayMessage from "./components/OverlayMessage";
 
 function Camera() {
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
+  const audioRef = useRef(null);
   const [imageData, setImageData] = useState(null);
-  const [TTSAudio, setTTSAudio] = useState(null);
+  const [TTSAudio] = useState(null);
   const [isHelpBoxVisible, setIsHelpBoxVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [loadingImage, setLoadingImage] = useState(loadingOff);
-
   const [isOverlayVisible, setIsOverlayVisible] = useState(false);
-  const [overlayMessage, setOverlayMessage] = useState('');
+  const [overlayMessage, setOverlayMessage] = useState("");
+  const [helpBoxMessage, setHelpBoxMessage] = useState("");
+  const [audioSource] = useState("/mp3/camera.mp3");
+  const [userInteracted, setUserInteracted] = useState(false);
 
-  const handleHelpClick = () => {
-    setIsHelpBoxVisible(!isHelpBoxVisible);
+  const handleUserInteraction = () => {
+    setUserInteracted(true);
   };
 
+  const playAudio = (stop = false) => {
+    if (audioRef.current) {
+      audioRef.current.pause();
+      if(!stop){
+        audioRef.current.currentTime = 0;
+        audioRef.current.play();
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (userInteracted) {
+      playAudio();
+    }
+  }, [userInteracted]);
+
+  const handleHelpClick = () => {
+    handleUserInteraction();
+
+    if (!isHelpBoxVisible) {
+      setIsHelpBoxVisible(true);
+      setHelpBoxMessage("카메라 화면입니다. 이 화면에서는 카메라를 통해 제품을 촬영하고 음성을 듣는 기능을 사용하실 수 있습니다. 화면 상단에는 세 가지 버튼이 위치해 있습니다. 왼쪽부터 맞춤 정보설정, 사용 방법, 음성 설정 버튼이 있습니다. 화면 하단 50%를 누르면 카메라가 현재 보고 있는 제품을 촬영하여 관련 정보를 음성으로 제공합니다.");
+      playAudio();
+    } else {
+      setIsHelpBoxVisible(false);
+      playAudio(true); // 재생 중인 오디오를 멈추도록 함
+    }
+  };
+
+
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.src = audioSource;
+      audioRef.current.onended = () => {
+        setIsHelpBoxVisible(false);
+      };
+    }
+  }, [audioSource]);
+
   const captureImage = () => {
-    setIsLoading(true); // Start loading before API request
+    setIsLoading(true);
 
     const canvas = canvasRef.current;
     const video = videoRef.current;
@@ -54,7 +96,7 @@ function Camera() {
         },
       })
       .then((response) => {
-        console.log(response);
+        console.log(response.data);
         setIsLoading(false); // request가 끝나면 로딩 상태를 false로 변경
         if (response.data.length > 0) {
           playTTS(response.data);
@@ -118,7 +160,7 @@ function Camera() {
       )
       .then((response) => {
         const audios = URL.createObjectURL(response.data);
-        setTTSAudio(audios);
+        setOverlayMessage(tempReadingText);
         const audio = new Audio(audios);
         audio.onended = () => {
           setIsOverlayVisible(false);
@@ -183,7 +225,7 @@ function Camera() {
               사용방법
             </Button>
           </div>
-
+  
           <div className="toolbar-button">
             <Button
               component={Link}
@@ -197,7 +239,7 @@ function Camera() {
           </div>
         </Toolbar>
       </AppBar>
-      <audio controls src={TTSAudio} className="audio" autoPlay />
+      <audio controls ref={audioRef} src={audioSource} className="audio" autoPlay />
       <div className="camera-view">
         <video
           ref={videoRef}
@@ -211,36 +253,12 @@ function Camera() {
         className={`capture-area ${isLoading ? "loading" : ""}`}
         onClick={captureImage}
       />
-
       {imageData}
       <canvas ref={canvasRef} style={{ display: "none" }} />
-      {isHelpBoxVisible && (
-        <div>
-          <HelpBox />
-        </div>
-      )}
-      {isOverlayVisible && (
-        <div style={{
-          position: 'fixed',
-          top: '40%',
-          bottom: '40%',
-          left: '10%',
-          right: '10%',
-          backgroundColor: 'rgba(0, 0, 0, 0.5)',
-          color: 'white',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          borderRadius: '15px',
-          padding: '20px',
-          zIndex: 100,
-          boxSizing: 'border-box',
-          fontSize: "calc(1.5vw + 1.5vh)",
-        }}>
-          {overlayMessage}
-        </div>
-        )}
+      <audio controls src={TTSAudio} className="audio" autoPlay />
+      <OverlayMessage isVisible={isHelpBoxVisible} message={helpBoxMessage} />
+      <OverlayMessage isVisible={isOverlayVisible} message={overlayMessage} />
     </div>
-  );
+  );  
 }
 export default Camera;
