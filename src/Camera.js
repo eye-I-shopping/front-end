@@ -17,53 +17,74 @@ function Camera() {
   const canvasRef = useRef(null);
   const audioRef = useRef(null);
   const [imageData, setImageData] = useState(null);
-  const [TTSAudio] = useState(null);
-  const [isHelpBoxVisible, setIsHelpBoxVisible] = useState(false);
+  const [TTSAudio, setTTSAudio] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [loadingImage, setLoadingImage] = useState(loadingOff);
+  const [loadingImage, setLoadingImage] = useState(loadingOn);
   const [isOverlayVisible, setIsOverlayVisible] = useState(false);
   const [overlayMessage, setOverlayMessage] = useState("");
-  const [helpBoxMessage, setHelpBoxMessage] = useState("");
-  const [audioSource] = useState("/mp3/camera.mp3");
-  const [userInteracted, setUserInteracted] = useState(false);
-  const [isLoadingAudioPlaying, setIsLoadingAudioPlaying] = useState(false);
-
-  const playAudio = () => {
-    if (audioRef.current) {
-      audioRef.current.pause();
-    }
-  };
+  const promptMessage =
+    "카메라 화면입니다. 이 화면에서는 카메라를 통해 제품을 촬영하고 음성을 듣는 기능을 사용하실 수 있습니다. 화면 상단에는 세 가지 버튼이 위치해 있습니다. 왼쪽부터 맞춤 정보설정, 사용 방법, 음성 설정 버튼이 있습니다. 화면 하단 50%를 누르면 카메라가 현재 보고 있는 제품을 촬영하여 관련 정보를 음성으로 제공합니다.";
 
   useEffect(() => {
-    if (userInteracted) {
-      playAudio();
-    }
-  }, [userInteracted]);
+    const constraints = { video: { facingMode: "environment" } };
+    navigator.mediaDevices
+      .getUserMedia(constraints)
+      .then((stream) => {
+        if (videoRef.current) {
+          videoRef.current.srcObject = stream;
+          // handleHelpClick();
+        }
+      })
+      .catch((err) => {
+        console.error("카메라 접근 에러: " + err);
+      });
+  }, []);
 
   const handleHelpClick = () => {
-    if (!isHelpBoxVisible) {
-      setIsHelpBoxVisible(true);
-      setHelpBoxMessage("카메라 화면입니다. 이 화면에서는 카메라를 통해 제품을 촬영하고 음성을 듣는 기능을 사용하실 수 있습니다. 화면 상단에는 세 가지 버튼이 위치해 있습니다. 왼쪽부터 맞춤 정보설정, 사용 방법, 음성 설정 버튼이 있습니다. 화면 하단 50%를 누르면 카메라가 현재 보고 있는 제품을 촬영하여 관련 정보를 음성으로 제공합니다.");
-      playAudio();
+    if (overlayMessage === promptMessage) {
+      // 끄고싶을때 예외처리
+      audioRef.current.pause();
+      setTTSAudio(null);
+      setOverlayMessage("");
+      setIsOverlayVisible(false);
     } else {
-      setIsHelpBoxVisible(false);
-      playAudio(true); // 재생 중인 오디오를 멈추도록 함
+      if (audioRef.current.paused) {
+        setTTSAudio("/mp3/camera.mp3");
+        setOverlayMessage(promptMessage);
+        setIsOverlayVisible(true);
+      }
     }
   };
 
+  const handleAudioStart = () => {
+    if (TTSAudio !== "/mp3/loading.mp3") {
+      setIsLoading(false);
+      setIsOverlayVisible(true);
+    }
+  };
+
+  const handleAudioEnd = () => {
+    setIsOverlayVisible(false);
+  };
 
   useEffect(() => {
-    if (audioRef.current) {
-      audioRef.current.src = audioSource;
-      audioRef.current.onended = () => {
-        setIsHelpBoxVisible(false);
-      };
+    let interval;
+    if (isLoading) {
+      setTTSAudio("/mp3/loading.mp3");
+      interval = setInterval(() => {
+        setLoadingImage((prev) =>
+          prev === loadingOn ? loadingOff : loadingOn
+        );
+      }, 1000);
+    } else {
+      setLoadingImage(loadingOff);
     }
-  }, [audioSource]);
+    return () => clearInterval(interval);
+  }, [isLoading]);
 
   const captureImage = () => {
     // 화면이 비활성화 중일 때는 바로 리턴합니다.
-    if (isLoading) {
+    if (isLoading || !audioRef.current.paused) {
       return;
     }
 
@@ -93,7 +114,6 @@ function Camera() {
       })
       .then((response) => {
         console.log(response.data);
-        setIsLoading(false); // request가 끝나면 로딩 상태를 false로 변경
         if (response.data.length > 0) {
           playTTS(response.data);
         } else {
@@ -102,27 +122,10 @@ function Camera() {
       })
       .catch((error) => {
         console.log(error);
-        setIsLoading(false); // error가 발생해도 로딩 상태를 false로 변경
+        setIsLoading(false); // error가 발생하면 로딩 상태를 false로 변경
         playTTS("네트워크 연결이 불안정합니다.");
       });
   };
-
-  useEffect(() => {
-    let interval;
-    if (isLoading) {
-      setIsLoadingAudioPlaying(true);
-      // playTTS("로딩중입니다.");
-      interval = setInterval(() => {
-        setLoadingImage((prev) =>
-          prev === loadingOn ? loadingOff : loadingOn
-        );
-      }, 1000);
-    } else {
-      setIsLoadingAudioPlaying(false);
-      setLoadingImage(loadingOff);
-    }
-    return () => clearInterval(interval);
-  }, [isLoading]);
 
   const dataUrltoBlob = (dataURI) => {
     let base64Content = atob(dataURI.split(",")[1]);
@@ -136,44 +139,33 @@ function Camera() {
     return blob;
   };
 
-  const playTTS = (tempReadingText) => {
-    if(isLoadingAudioPlaying) return;
-
-    setIsLoading(false);
+  const playTTS = (readingText) => {
     const formData = new FormData();
     formData.append("speaker", sessionStorage.getItem("speaker"));
     formData.append("speed", Number(sessionStorage.getItem("speed")));
-    formData.append("text", tempReadingText);
-
-    //https://cors-anywhere.herokuapp.com/https://naveropenapi.apigw.ntruss.com/tts-premium/v1/tts
+    formData.append("text", readingText);
+    //https://cors-anywhere.herokuapp.com/
+    //https://cors.bridged.cc/
     axios
       .post(
         "https://cors.bridged.cc/https://naveropenapi.apigw.ntruss.com/tts-premium/v1/tts",
         formData,
         {
           headers: {
-            "x-cors-api-key": process.env.REACT_APP_X_CORS_API_KEY,
             "Content-Type": "application/x-www-form-urlencoded",
-            "X-NCP-APIGW-API-KEY-ID": process.env.REACT_APP_NCP_TTS_ID,
-            "X-NCP-APIGW-API-KEY": process.env.REACT_APP_NCP_TTS_KEY,
+            "X-NCP-APIGW-API-KEY-ID":
+              process.env.REACT_APP_X_NCP_APIGW_API_KEY_ID,
+            "X-NCP-APIGW-API-KEY": process.env.REACT_APP_X_NCP_APIGW_API_KEY,
+            "x-cors-api-key": process.env.REACT_APP_X_CORS_API_KEY,
           },
           responseType: "blob",
         }
       )
       .then((response) => {
-        const audios = URL.createObjectURL(response.data);
-        setOverlayMessage(tempReadingText);
-        const audio = new Audio(audios);
-        audio.onended = () => {
-          setIsOverlayVisible(false);
-          setIsLoading(false);
-        };
-        audio.onplay = () => {
-          setIsOverlayVisible(!isLoading);
-        };
-        if (!isLoading) {
-          audio.play();
-        }
+        console.log(response);
+        const audio = URL.createObjectURL(response.data);
+        setOverlayMessage(readingText);
+        setTTSAudio(audio);
       })
       .catch((error) => {
         console.log(error);
@@ -181,37 +173,8 @@ function Camera() {
       });
   };
 
-  useEffect(() => {
-    const constraints = { video: { facingMode: "environment" } };
-
-    navigator.mediaDevices
-      .getUserMedia(constraints)
-      .then((stream) => {
-        if (videoRef.current) {
-          videoRef.current.srcObject = stream;
-        }
-      })
-      .catch((err) => {
-        console.error("An error occurred: " + err);
-      });
-  }, []);
-
   return (
-    <div 
-      className="camera"
-      onClick={() => {
-        if (isHelpBoxVisible) {
-          playAudio(true); // stop the audio
-          setIsHelpBoxVisible(false); // close the help box
-        }
-        setUserInteracted(!userInteracted); // toggle userInteracted state
-      }}
-    >
-      {isLoading && (
-        <div className="loading">
-          <img src={loadingImage} alt="Loading..." className="loading-image" />
-        </div>
-      )}
+    <div className="camera">
       <AppBar
         position="static"
         color="transparent"
@@ -240,7 +203,7 @@ function Camera() {
               사용방법
             </Button>
           </div>
-  
+
           <div className="toolbar-button">
             <Button
               component={Link}
@@ -254,13 +217,6 @@ function Camera() {
           </div>
         </Toolbar>
       </AppBar>
-      <audio
-        controls
-        ref={audioRef}
-        src={audioSource}
-        className="audio"
-        autoPlay
-      />
       <div className="camera-view">
         <video
           ref={videoRef}
@@ -276,10 +232,21 @@ function Camera() {
       />
       {imageData}
       <canvas ref={canvasRef} style={{ display: "none" }} />
-      <audio controls src={TTSAudio} className="audio" autoPlay />
-      <OverlayMessage isVisible={isHelpBoxVisible} message={helpBoxMessage} />
+      {isLoading && (
+        <div className="loading">
+          <img src={loadingImage} alt="Loading..." className="loading-image" />
+        </div>
+      )}
+      <audio
+        src={TTSAudio}
+        ref={audioRef}
+        onPlay={handleAudioStart}
+        onEnded={handleAudioEnd}
+        className="audio"
+        autoPlay
+      />
       <OverlayMessage isVisible={isOverlayVisible} message={overlayMessage} />
     </div>
-  );  
+  );
 }
 export default Camera;
