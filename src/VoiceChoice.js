@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
@@ -6,11 +6,26 @@ import Header from "./components/Header";
 
 const VoiceChoice = () => {
   const [audioSource, setAudioSource] = useState("");
+  const [speaker, setSpeaker] = useState("nes_c_mikyung");
   const audioRef = useRef();
+
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.src = "/mp3/voiceChoice.mp3";
+      audioRef.current.load();
+      audioRef.current.oncanplaythrough = async () => {
+        try {
+          await audioRef.current.play();
+        } catch (error) {
+          console.error("playback error", error);
+        }
+      };
+    }
+  }, []);
 
   const handleButtonClick = (audioFile, speaker) => {
     setAudioSource(audioFile);
-    sessionStorage.setItem("speaker", speaker); // 세션 스토리지에 저장
+    setSpeaker(speaker);
     if (audioRef.current) {
       audioRef.current.src = audioFile;
       audioRef.current.load();
@@ -23,20 +38,22 @@ const VoiceChoice = () => {
       };
     }
   };
-
   const handleSave = () => {
-    const speaker = sessionStorage.getItem("speaker");
-    console.log(speaker);
-  }
+    sessionStorage.setItem("speaker", speaker);
+  };
+
+  const handleSkip = () => {
+    setAudioSource("");
+    setSpeaker("nes_c_mikyung");
+    sessionStorage.setItem("speaker", "nes_c_mikyung");
+  };
+
   return (
     <>
       <Header
         title="음성 선택"
-        skipLink="/splashImage/voiceChoice/speedChoice"
-        skipOnClick={() => {
-          handleButtonClick("", "jinho");
-          handleSave();
-        }}
+        skipLink="/splashImage/custom/voiceChoice/speedChoice"
+        skipOnClick={handleSkip}
       />
       <Box
         sx={{
@@ -81,8 +98,10 @@ const VoiceChoice = () => {
             성인 남성
           </Button>
           <Button
-            onClick={() => handleButtonClick("/mp3/Mikyung.mp3", "mikyung")}
-            variant="contained" // 어떤지 물어보기 (버튼 강조)
+            onClick={() =>
+              handleButtonClick("/mp3/Mikyung.mp3", "nes_c_mikyung")
+            }
+            variant="contained"
             color="inherit"
             sx={{
               backgroundColor: "lightgray",
@@ -95,7 +114,7 @@ const VoiceChoice = () => {
             성인 여성
           </Button>
           <Button
-            onClick={() => handleButtonClick("/mp3/Hajoon.mp3", "hajoon")}
+            onClick={() => handleButtonClick("/mp3/Hajoon.mp3", "nhajun")}
             variant="Outlined"
             color="primary"
             sx={{
@@ -109,7 +128,7 @@ const VoiceChoice = () => {
             남자 아이
           </Button>
           <Button
-            onClick={() => handleButtonClick("/mp3/Dain.mp3", "dain")}
+            onClick={() => handleButtonClick("/mp3/Dain.mp3", "ndain")}
             variant="Outlined"
             color="primary"
             sx={{
@@ -123,11 +142,11 @@ const VoiceChoice = () => {
             여자 아이
           </Button>
           <Button
+            onClick={handleSave}
             variant="Outlined"
             color="primary"
             component={Link}
-            to="/splashImage/voiceChoice/speedChoice"
-            onClick={handleSave}
+            to="/splashImage/custom/voiceChoice/speedChoice"
             sx={{
               backgroundColor: "white",
               borderRadius: "25px",

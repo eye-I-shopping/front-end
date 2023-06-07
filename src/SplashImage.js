@@ -1,48 +1,65 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import axios from "axios";
 import logoImage_purple from "./image/logo_purple.png";
 import "./SplashImage.css";
 import { useNavigate } from "react-router-dom";
 
 function SplashImage() {
-  const [data, setData] = useState(null);
   const navigate = useNavigate();
 
-  const formData = new FormData();
-  formData.append("id", "temp");
-
   useEffect(() => {
+    let phoneToken = "kimkim"; // let phoneToken;
     if (window.BRIDGE !== undefined) {
-      let phoneToken = window.BRIDGE.sendToken();
+      phoneToken = window.BRIDGE.sendToken();
       alert(phoneToken);
     }
 
+    const formData = new FormData();
+    formData.append("id", phoneToken);
+
     axios
-      .post("http://192.168.0.10:80/settings", formData, {
+      .post("https://eyeshopping.shop/settings/get", formData, {
         headers: {
           "Content-Type": "application/json",
         },
       })
       .then((response) => {
-        setData(response.data);
-        if (data) {
-          console.log(response.data);
+        console.log(response.data);
+        if (response.data) {
+          // console.log("true");
+          const tokenData = response.data;
+
+          if (tokenData.id) {
+            sessionStorage.setItem("id", tokenData.id);
+          }
+          if (tokenData.userSettings !== undefined && tokenData.userSettings !== null) {
+            sessionStorage.setItem("userSettings", JSON.stringify(tokenData.userSettings));
+          }        
+          if (tokenData.speaker) {
+            sessionStorage.setItem("speaker", tokenData.speaker);
+          }
+          if (tokenData.speed) {
+            sessionStorage.setItem("speed", tokenData.speed);
+          }
+          
           setTimeout(() => {
-            navigate("/splashImage/voiceChoice/speedChoice/camera", {
+            navigate("/splashImage/custom/voiceChoice/speedChoice/camera", {
               replace: true,
             });
           }, 2000);
         } else {
+          console.log("else 처리 중");
+          sessionStorage.setItem("id", phoneToken);
           setTimeout(() => {
-            navigate("/splashImage/voiceChoice", { replace: true });
+            navigate("/splashImage/custom", { replace: true });
           }, 2000);
         }
       })
       .catch((error) => {
         console.log(error);
-        setTimeout(() => {
-          navigate("/splashImage/voiceChoice", { replace: true });
-        }, 2000);
+        // setTimeout(() => {
+        //   navigate("/splashImage/custom", { replace: true });
+        // }, 2000);
       });
   }, [navigate]);
 

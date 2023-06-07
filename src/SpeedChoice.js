@@ -1,29 +1,39 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { Box, Button } from "@mui/material";
 import Header from "./components/Header";
 import IconButton from "@mui/material/IconButton";
 import KeyboardControlKeyOutlinedIcon from "@mui/icons-material/KeyboardControlKeyOutlined";
 import KeyboardArrowDownOutlinedIcon from "@mui/icons-material/KeyboardArrowDownOutlined";
+import axios from "axios";
 
 const SpeedChoice = () => {
   const [speed, setSpeed] = useState(1);
   const audioRef = useRef();
 
-  const speedFiles = {
-    0: "/mp3/feedback_static.mp3", // For initial speed choice
-    1: {
-      decrease: "/mp3/feedback1_decrease.mp3",
-      increase: "/mp3/feedback1_increase.mp3",
-    },
-    2: {
-      decrease: "/mp3/feedback2_decrease.mp3",
-      increase: "/mp3/feedback2_increase.mp3",
-    },
-    3: {
-      decrease: "/mp3/feedback3_decrease.mp3",
-      increase: "/mp3/feedback3_increase.mp3",
-    },
+  const speedFiles = useMemo(
+    () => ({
+      0: "/mp3/feedback_static.mp3", // For initial speed choice
+      1: {
+        decrease: "/mp3/feedback1_decrease.mp3",
+        increase: "/mp3/feedback1_increase.mp3",
+      },
+      2: {
+        decrease: "/mp3/feedback2_decrease.mp3",
+        increase: "/mp3/feedback2_increase.mp3",
+      },
+      3: {
+        decrease: "/mp3/feedback3_decrease.mp3",
+        increase: "/mp3/feedback3_increase.mp3",
+      },
+    }),
+    []
+  );
+
+  const speedValue = {
+    1: 0,
+    2: -3,
+    3: -5
   };
 
   useEffect(() => {
@@ -38,7 +48,7 @@ const SpeedChoice = () => {
         }
       };
     }
-  }, []);
+  }, [speedFiles]);
 
   const handleSpeedChange = (direction) => {
     if (direction === "increase" && speed < 3) {
@@ -61,11 +71,47 @@ const SpeedChoice = () => {
     }
   };
 
+  const handleSave = () => {
+    try {
+      sessionStorage.setItem("speed", speedValue[speed]);
+
+      const getId = sessionStorage.getItem("id");
+      const getUserSet = sessionStorage.getItem("userSettings");
+      const getSpeaker = sessionStorage.getItem("speaker");
+      const getSpeed = sessionStorage.getItem("speed");
+
+      const formData = new FormData();
+      formData.append("id", getId);
+      formData.append("userSettings", getUserSet);
+      formData.append("speaker", getSpeaker);
+      formData.append("speed", getSpeed);
+
+      axios
+        .post("https://eyeshopping.shop/settings", formData, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((error) => {
+          console.error("Error sending data to the server", error);
+        });
+    } catch (error) {
+      console.error("An error occurred while preparing the request", error);
+    }
+  };
+
   return (
     <>
       <Header
         title="음성 속도 조절"
-        skipLink="/splashImage/voiceChoice/speedChoice/camera"
+        skipLink="/splashImage/custom/voiceChoice/speedChoice/camera"
+        skipOnClick={() => {
+          handleSave();
+          sessionStorage.setItem("speed", 0);
+        }}
       />
       <Box
         sx={{
@@ -126,7 +172,8 @@ const SpeedChoice = () => {
           <Button
             variant="Outlined"
             component={Link}
-            to="/splashImage/voiceChoice/speedChoice/camera"
+            to="/splashImage/custom/voiceChoice/speedChoice/camera"
+            onClick={handleSave}
             sx={{
               backgroundColor: "white",
               borderRadius: "25px",

@@ -1,5 +1,4 @@
 import React from "react";
-
 function HelpBox() {
   return (
     <div
@@ -21,9 +20,17 @@ function HelpBox() {
         style={{
           padding: "10px",
         }}
-      >
-        여기에 이런식으로 사용설명이 나오게끔? 나중에 읽어주는 것도 구현
-      </p>
+      ></p>
+      {/* <fieldset>
+        <label>
+          <input role="switch" type="checkbox" />
+          <span>알람</span>
+        </label>
+        <label>
+          <input role="switch" type="checkbox" disabled />
+          <span>알람 (비활성화)</span>
+        </label>
+      </fieldset> */}
     </div>
   );
 }
