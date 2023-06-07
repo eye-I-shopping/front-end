@@ -64,6 +64,7 @@ function Camera() {
   };
 
   const handleAudioEnd = () => {
+    setTTSAudio(null);
     setOverlayMessage("");
     setIsOverlayVisible(false);
   };
