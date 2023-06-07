@@ -79,7 +79,7 @@ function Camera() {
         );
       }, 1000);
     } else {
-      setLoadingImage(loadingOff);
+      setLoadingImage(loadingOn);
     }
     return () => clearInterval(interval);
   }, [isLoading]);
