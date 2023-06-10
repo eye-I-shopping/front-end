@@ -95,6 +95,7 @@ const CameraCustom = () => {
           control={
             <Switch
               checked={infoChoice[name]}
+              onClick={(event) => event.stopPropagation()}
               onChange={handleToggle(name)}
               name={name}
               color="primary"
