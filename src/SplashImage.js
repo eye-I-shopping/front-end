@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useLayoutEffect, useState } from "react";
 import axios from "axios";
 import logoImage_purple from "./image/logo_purple.png";
 import "./SplashImage.css";
@@ -9,7 +9,7 @@ function SplashImage() {
   const [fadeIn, setFadeIn] = useState(false);
   const [fadeOut, setFadeOut] = useState(false);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     setFadeIn(true);
     let phoneToken = "temp"; // let phoneToken;
 

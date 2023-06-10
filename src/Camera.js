@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { AppBar, Toolbar, Button } from "@mui/material";
+import { AppBar, Toolbar, Button, Box } from "@mui/material";
 import {
   HelpOutline as HelpIcon,
   SettingsVoice as VoiceSettingIcon,
@@ -229,22 +229,28 @@ function Camera() {
           muted
         />
       </div>
-      <div
-        className={`capture-area ${isLoading ? "loading" : ""}`}
-        onClick={captureImage}
-      />
-      {imageData}
-      <canvas ref={canvasRef} style={{ display: "none" }} />
-      {isLoading && (
-        <div className="loading">
-          <img src={loadingImage} alt="Loading..." className="loading-image" />
-        </div>
-      )}
+      <Box sx={{ zIndex: 2 }}>
+        <div
+          className={`capture-area ${isLoading ? "loading" : ""}`}
+          onClick={captureImage}
+        />
+        <span hidden>{imageData}</span>
+        <canvas ref={canvasRef} style={{ display: "none" }} />
+        {isLoading && (
+          <div className="loading">
+            <img
+              src={loadingImage}
+              alt="Loading…"
+              className="loading-image"
+            />
+          </div>
+        )}
+      </Box>
       <img
         src={camerButton}
         alt="카메라 버튼"
         style={{
-          zIndex: "1",
+          zIndex: 1,
           width: "50%",
           height: "auto",
           position: "absolute",

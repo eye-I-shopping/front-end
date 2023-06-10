@@ -120,7 +120,7 @@ const SpeedChoice = () => {
           alignItems: "center",
           justifyContent: "flex-end",
           height: "100vh",
-          backgroundColor: "white",
+          backgroundColor: "transparent",
         }}
       >
         <Box
@@ -138,7 +138,7 @@ const SpeedChoice = () => {
             width: "90%",
             marginBottom: "0",
             height: "91.5vh",
-            backgroundColor: "#ffff",
+            backgroundColor: "transparent",
           }}
         >
           <IconButton

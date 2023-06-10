@@ -7,12 +7,12 @@ import BackgroundLogo from "./components/BackgroundLogo";
 
 const VoiceChoice = () => {
   const [audioSource, setAudioSource] = useState("");
-  const [speaker, setSpeaker] = useState("nes_c_mikyung");
+  const [speaker, setSpeaker] = useState(sessionStorage.getItem("speaker") || "nes_c_mikyung");
   const audioRef = useRef();
 
   useEffect(() => {
     if (audioRef.current) {
-      audioRef.current.src = "";
+      audioRef.current.src = "/mp3/voiceChoice.mp3";
       audioRef.current.load();
       audioRef.current.oncanplaythrough = async () => {
         try {
@@ -90,17 +90,19 @@ const VoiceChoice = () => {
             variant="Outlined"
             sx={{
               borderRadius: "55px",
-              backgroundColor: "rgba(151, 151, 151, 0.1)",
+              backgroundColor: speaker === 'jinho' ? '#977CC9' : 'rgba(151, 151, 151, 0.1)',
+              color: speaker === 'jinho' ? '#ffffff' : '#323232',
               gridArea: "a",
-              color: "black",
               fontSize: "calc(1.5vw + 1.5vh)",
               height: "26vh",
               boxShadow: "5px 5px 10px rgba(0, 0, 0, 0.2)",
               "&:hover": {
-                backgroundColor: "#977CC9", // hover color
+                backgroundColor: "#977CC9",
+                color: "white",
               },
               "&:active": {
-                backgroundColor: "#977CC9", // active color
+                backgroundColor: "#977CC9",
+                color: "white",
               },
             }}
           >
@@ -112,18 +114,20 @@ const VoiceChoice = () => {
             }
             variant="contained"
             sx={{
-              borderRadius: "45px",
-              backgroundColor: "rgba(151, 151, 151, 0.1)",
+              borderRadius: "55px",
+              backgroundColor: speaker === 'nes_c_mikyung' ? '#977CC9' : 'rgba(151, 151, 151, 0.1)',
+              color: speaker === 'nes_c_mikyung' ? '#ffffff' : '#323232',
               gridArea: "b",
-              color: "black",
               fontSize: "calc(1.5vw + 1.5vh)",
               height: "26vh",
               boxShadow: "5px 5px 10px rgba(0, 0, 0, 0.2)",
               "&:hover": {
-                backgroundColor: "#977CC9", // hover color
+                backgroundColor: "#977CC9",
+                color: "white",
               },
               "&:active": {
-                backgroundColor: "#977CC9", // active color
+                backgroundColor: "#977CC9",
+                color: "white",
               },
             }}
           >
@@ -133,18 +137,20 @@ const VoiceChoice = () => {
             onClick={() => handleButtonClick("/mp3/Hajoon.mp3", "nhajun")}
             variant="Outlined"
             sx={{
-              borderRadius: "45px",
-              backgroundColor: "rgba(151, 151, 151, 0.1)",
+              borderRadius: "55px",
+              backgroundColor: speaker === 'nhajun' ? '#977CC9' : 'rgba(151, 151, 151, 0.1)',
+              color: speaker === 'nhajun' ? '#ffffff' : '#323232',
               gridArea: "c",
-              color: "black",
               fontSize: "calc(1.5vw + 1.5vh)",
               height: "26vh",
               boxShadow: "5px 5px 10px rgba(0, 0, 0, 0.2)",
               "&:hover": {
-                backgroundColor: "#977CC9", // hover color
+                backgroundColor: "#977CC9",
+                color: "white",
               },
               "&:active": {
-                backgroundColor: "#977CC9", // active color
+                backgroundColor: "#977CC9",
+                color: "white",
               },
             }}
           >
@@ -154,18 +160,20 @@ const VoiceChoice = () => {
             onClick={() => handleButtonClick("/mp3/Dain.mp3", "ndain")}
             variant="Outlined"
             sx={{
-              borderRadius: "45px",
-              backgroundColor: "rgba(151, 151, 151, 0.1)",
+              borderRadius: "55px",
+              backgroundColor: speaker === 'ndain' ? '#977CC9' : 'rgba(151, 151, 151, 0.1)',
+              color: speaker === 'ndain' ? '#ffffff' : '#323232',
               gridArea: "d",
-              color: "black",
               fontSize: "calc(1.5vw + 1.5vh)",
               height: "26vh",
               boxShadow: "5px 5px 10px rgba(0, 0, 0, 0.2)",
               "&:hover": {
-                backgroundColor: "#977CC9", // hover color
+                backgroundColor: "#977CC9",
+                color: "white",
               },
               "&:active": {
-                backgroundColor: "#977CC9", // active color
+                backgroundColor: "#977CC9",
+                color: "white",
               },
             }}
           >
