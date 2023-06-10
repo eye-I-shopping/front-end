@@ -95,7 +95,7 @@ const CameraCustom = () => {
           control={
             <Switch
               checked={infoChoice[name]}
-              onChange={() => {}}
+              onChange={handleToggle(name)}
               name={name}
               color="primary"
             />
@@ -121,7 +121,7 @@ const CameraCustom = () => {
           alignItems: "center",
           justifyContent: "flex-end",
           height: "100vh",
-          backgroundColor: "white",
+          backgroundColor: "transparent",
         }}
       >
         <Box
@@ -135,7 +135,7 @@ const CameraCustom = () => {
             width: "90%",
             marginBottom: "0",
             height: "85vh",
-            backgroundColor: "white",
+            backgroundColor: "transparent",
             fontSize: "calc(1.5vw + 1.5vh)",
           }}
         >

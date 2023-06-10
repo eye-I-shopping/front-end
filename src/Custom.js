@@ -41,7 +41,7 @@ const Custom = () => {
   useEffect(() => {
     if (playFlag) {
       const audio = audioRef.current;
-      audio.src = "";
+      audio.src = "/mp3/custom.mp3";
       audio.load();
       audio.oncanplaythrough = async () => {
         try {
@@ -94,7 +94,7 @@ const Custom = () => {
           control={
             <Switch
               checked={infoChoice[name]}
-              onChange={() => {}}
+              onChange={handleToggle(name)}
               name={name}
               color="primary"
             />
@@ -108,6 +108,7 @@ const Custom = () => {
 
   return (
     <ThemeProvider theme={theme}>
+      <BackgroundLogo />
       <Header
         title="맞춤 정보 설정"
         skipLink="/splashImage/custom/voiceChoice"
@@ -115,7 +116,6 @@ const Custom = () => {
           sessionStorage.setItem("userSettings", 0);
         }}
       />
-      <BackgroundLogo />
       <Box
         sx={{
           display: "flex",
@@ -123,7 +123,7 @@ const Custom = () => {
           alignItems: "center",
           justifyContent: "flex-end",
           height: "100vh",
-          backgroundColor: "white",
+          backgroundColor: "transparent",
         }}
       >
         <Box
@@ -137,7 +137,7 @@ const Custom = () => {
             width: "90%",
             marginBottom: "0",
             height: "85vh",
-            backgroundColor: "white",
+            backgroundColor: "transparent",
             fontSize: "calc(1.5vw + 1.5vh)",
           }}
         >

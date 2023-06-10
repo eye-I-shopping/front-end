@@ -5,4 +5,5 @@
   top: 35%;
   left: -40%;
   opacity: 10%;
+  z-index: -1;
 }
