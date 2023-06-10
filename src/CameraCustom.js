@@ -8,6 +8,7 @@ import {
   createTheme,
   ThemeProvider,
 } from "@mui/material";
+import BackgroundLogo from "./components/BackgroundLogo";
 import Header from "./components/Header";
 import axios from "axios";
 
@@ -72,18 +73,18 @@ const CameraCustom = () => {
   const BoxOption = ({ name, icon, label }) => (
     <Box
       onClick={handleToggle(name)}
-      backgroundColor="lightgray"
       sx={{
-        border: "2px solid white",
-        borderRadius: "25px",
+        borderRadius: "55px",
+        backgroundColor: "rgba(151, 151, 151, 0.1)",
         padding: "10px",
         display: "flex",
         justifyContent: "space-between",
         alignItems: "center",
         cursor: "pointer",
+        boxShadow: "5px 5px 10px rgba(0, 0, 0, 0.2)",
       }}
     >
-      <Box sx={{ display: "flex", alignItems: "center" }}>
+      <Box sx={{ display: "flex", alignItems: "center", color: "black" }}>
         {icon}
         <Box component="span" sx={{ marginLeft: 5 }}>
           {label}
@@ -112,6 +113,7 @@ const CameraCustom = () => {
         title="맞춤 정보 설정"
         skipLink="/splashImage/custom/voiceChoice/speedChoice/camera"
       />
+      <BackgroundLogo />
       <Box
         sx={{
           display: "flex",
@@ -128,12 +130,12 @@ const CameraCustom = () => {
             gridTemplateColumns: "repeat(1, 1fr)",
             gridTemplateRows: "repeat(5, 1fr)",
             gridGap: "20px",
-            padding: "30px",
+            padding: "80px",
             borderRadius: "40px 40px 0 0",
-            width: "70%",
+            width: "90%",
             marginBottom: "0",
             height: "85vh",
-            backgroundColor: "#977CC9",
+            backgroundColor: "white",
             fontSize: "calc(1.5vw + 1.5vh)",
           }}
         >
@@ -148,11 +150,22 @@ const CameraCustom = () => {
             component={Link}
             to="/splashImage/custom/voiceChoice/speedChoice/camera"
             sx={{
-              border: "2px solid white",
-              backgroundColor: "white",
-              borderRadius: "25px",
+              height: "15vh",
+              backgroundColor: "#bebebe",
+              borderRadius: "55px",
               color: "black",
-              fontSize: "calc(1.5vw + 1.5vh)",
+              fontSize: "calc(2vw + 2vh)",
+              marginBottom: "80px",
+              marginTop: "20px",
+              boxShadow: "5px 5px 10px rgba(0, 0, 0, 0.2)",
+              "&:hover": {
+                backgroundColor: "#977CC9", // hover color
+                color: "white",
+              },
+              "&:active": {
+                backgroundColor: "#977CC9", // active color
+                color: "white",
+              },
             }}
           >
             저장하기

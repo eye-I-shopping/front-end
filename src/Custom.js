@@ -9,6 +9,7 @@ import {
   ThemeProvider,
 } from "@mui/material";
 import Header from "./components/Header";
+import BackgroundLogo from "./components/BackgroundLogo";
 
 const theme = createTheme({
   palette: {
@@ -28,29 +29,29 @@ const Custom = () => {
   });
 
   const audioRef = useRef();
-  useEffect(()=>{
-    const timerId = setTimeout(()=>{
+  useEffect(() => {
+    const timerId = setTimeout(() => {
       setPlayFlag(true);
-    }, 100)
-    return()=>{
+    }, 100);
+    return () => {
       clearTimeout(timerId);
-    }
-  },[]);
+    };
+  }, []);
 
   useEffect(() => {
-     if (playFlag) {
-    const audio = audioRef.current;
-    audio.src = "/mp3/custom.mp3";
-    audio.load();
-    audio.oncanplaythrough = async () => {
-      try {
-        await audio.play();
-      } catch (error) {
-        console.error("playback error", error);
-      }
-    };
-  }
-}, [playFlag, audioRef]);
+    if (playFlag) {
+      const audio = audioRef.current;
+      audio.src = "";
+      audio.load();
+      audio.oncanplaythrough = async () => {
+        try {
+          await audio.play();
+        } catch (error) {
+          console.error("playback error", error);
+        }
+      };
+    }
+  }, [playFlag, audioRef]);
 
   const handleToggle = (name) => () => {
     setInfoChoice((prev) => ({ ...prev, [name]: !prev[name] }));
@@ -71,18 +72,18 @@ const Custom = () => {
   const BoxOption = ({ name, icon, label }) => (
     <Box
       onClick={handleToggle(name)}
-      backgroundColor="lightgray"
       sx={{
-        border: "2px solid white",
-        borderRadius: "25px",
+        borderRadius: "55px",
+        backgroundColor: "rgba(151, 151, 151, 0.1)",
         padding: "10px",
         display: "flex",
         justifyContent: "space-between",
         alignItems: "center",
         cursor: "pointer",
+        boxShadow: "5px 5px 10px rgba(0, 0, 0, 0.2)",
       }}
     >
-      <Box sx={{ display: "flex", alignItems: "center" }}>
+      <Box sx={{ display: "flex", alignItems: "center", color: "black" }}>
         {icon}
         <Box component="span" sx={{ marginLeft: 5 }}>
           {label}
@@ -114,6 +115,7 @@ const Custom = () => {
           sessionStorage.setItem("userSettings", 0);
         }}
       />
+      <BackgroundLogo />
       <Box
         sx={{
           display: "flex",
@@ -130,12 +132,12 @@ const Custom = () => {
             gridTemplateColumns: "repeat(1, 1fr)",
             gridTemplateRows: "repeat(5, 1fr)",
             gridGap: "20px",
-            padding: "30px",
+            padding: "80px",
             borderRadius: "40px 40px 0 0",
-            width: "70%",
+            width: "90%",
             marginBottom: "0",
             height: "85vh",
-            backgroundColor: "#977CC9",
+            backgroundColor: "white",
             fontSize: "calc(1.5vw + 1.5vh)",
           }}
         >
@@ -150,11 +152,22 @@ const Custom = () => {
             component={Link}
             to="/splashImage/custom/voiceChoice"
             sx={{
-              border: "2px solid white",
-              backgroundColor: "white",
-              borderRadius: "25px",
+              height: "15vh",
+              backgroundColor: "#bebebe",
+              borderRadius: "55px",
               color: "black",
-              fontSize: "calc(1.5vw + 1.5vh)",
+              fontSize: "calc(2vw + 2vh)",
+              marginBottom: "80px",
+              marginTop: "20px",
+              boxShadow: "5px 5px 10px rgba(0, 0, 0, 0.2)",
+              "&:hover": {
+                backgroundColor: "#977CC9", // hover color
+                color: "white",
+              },
+              "&:active": {
+                backgroundColor: "#977CC9", // active color
+                color: "white",
+              },
             }}
           >
             저장하기

@@ -11,6 +11,7 @@ import WidgetsIcon from "@mui/icons-material/Widgets";
 import loadingOn from "./image/loadingOn.png";
 import loadingOff from "./image/loadingOff.png";
 import OverlayMessage from "./components/OverlayMessage";
+import camerButton from "./image/cameraButton.png";
 
 function Camera() {
   const videoRef = useRef(null);
@@ -239,6 +240,18 @@ function Camera() {
           <img src={loadingImage} alt="Loading..." className="loading-image" />
         </div>
       )}
+      <img
+        src={camerButton}
+        alt="카메라 버튼"
+        style={{
+          zIndex: "1",
+          width: "50%",
+          height: "auto",
+          position: "absolute",
+          top: "75%",
+          left: "30%",
+        }}
+      ></img>
       <audio
         src={TTSAudio}
         ref={audioRef}
