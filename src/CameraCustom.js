@@ -112,6 +112,7 @@ const CameraCustom = () => {
     <ThemeProvider theme={theme}>
       <Header
         title="맞춤 정보 설정"
+        buttonLabel="닫기"
         skipLink="/splashImage/custom/voiceChoice/speedChoice/camera"
       />
       <BackgroundLogo />

@@ -112,6 +112,7 @@ const Custom = () => {
       <BackgroundLogo />
       <Header
         title="맞춤 정보 설정"
+        buttonLabel="건너뛰기"
         skipLink="/splashImage/custom/voiceChoice"
         skipOnClick={() => {
           sessionStorage.setItem("userSettings", 0);

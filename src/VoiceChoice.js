@@ -7,7 +7,9 @@ import BackgroundLogo from "./components/BackgroundLogo";
 
 const VoiceChoice = () => {
   const [audioSource, setAudioSource] = useState("");
-  const [speaker, setSpeaker] = useState(sessionStorage.getItem("speaker") || "nes_c_mikyung");
+  const [speaker, setSpeaker] = useState(
+    sessionStorage.getItem("speaker") || "nes_c_mikyung"
+  );
   const audioRef = useRef();
 
   useEffect(() => {
@@ -55,6 +57,7 @@ const VoiceChoice = () => {
         title="음성 선택"
         skipLink="/splashImage/custom/voiceChoice/speedChoice"
         skipOnClick={handleSkip}
+        buttonLabel="건너뛰기"
       />
       <BackgroundLogo />
       <Box
@@ -90,8 +93,9 @@ const VoiceChoice = () => {
             variant="Outlined"
             sx={{
               borderRadius: "55px",
-              backgroundColor: speaker === 'jinho' ? '#977CC9' : 'rgba(151, 151, 151, 0.1)',
-              color: speaker === 'jinho' ? '#ffffff' : '#323232',
+              backgroundColor:
+                speaker === "jinho" ? "#977CC9" : "rgba(151, 151, 151, 0.1)",
+              color: speaker === "jinho" ? "#ffffff" : "#323232",
               gridArea: "a",
               fontSize: "calc(1.5vw + 1.5vh)",
               height: "26vh",
@@ -115,8 +119,11 @@ const VoiceChoice = () => {
             variant="contained"
             sx={{
               borderRadius: "55px",
-              backgroundColor: speaker === 'nes_c_mikyung' ? '#977CC9' : 'rgba(151, 151, 151, 0.1)',
-              color: speaker === 'nes_c_mikyung' ? '#ffffff' : '#323232',
+              backgroundColor:
+                speaker === "nes_c_mikyung"
+                  ? "#977CC9"
+                  : "rgba(151, 151, 151, 0.1)",
+              color: speaker === "nes_c_mikyung" ? "#ffffff" : "#323232",
               gridArea: "b",
               fontSize: "calc(1.5vw + 1.5vh)",
               height: "26vh",
@@ -138,8 +145,9 @@ const VoiceChoice = () => {
             variant="Outlined"
             sx={{
               borderRadius: "55px",
-              backgroundColor: speaker === 'nhajun' ? '#977CC9' : 'rgba(151, 151, 151, 0.1)',
-              color: speaker === 'nhajun' ? '#ffffff' : '#323232',
+              backgroundColor:
+                speaker === "nhajun" ? "#977CC9" : "rgba(151, 151, 151, 0.1)",
+              color: speaker === "nhajun" ? "#ffffff" : "#323232",
               gridArea: "c",
               fontSize: "calc(1.5vw + 1.5vh)",
               height: "26vh",
@@ -161,8 +169,9 @@ const VoiceChoice = () => {
             variant="Outlined"
             sx={{
               borderRadius: "55px",
-              backgroundColor: speaker === 'ndain' ? '#977CC9' : 'rgba(151, 151, 151, 0.1)',
-              color: speaker === 'ndain' ? '#ffffff' : '#323232',
+              backgroundColor:
+                speaker === "ndain" ? "#977CC9" : "rgba(151, 151, 151, 0.1)",
+              color: speaker === "ndain" ? "#ffffff" : "#323232",
               gridArea: "d",
               fontSize: "calc(1.5vw + 1.5vh)",
               height: "26vh",

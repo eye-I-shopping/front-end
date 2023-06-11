@@ -3,7 +3,7 @@ import { Box, Button, Typography } from "@mui/material";
 import styles from "./Header.module.css";
 import { Link } from "react-router-dom";
 
-function Header({ title, skipLink, skipOnClick }) {
+function Header({ title, skipLink, skipOnClick, buttonLabel }) {
   return (
     <Box className={styles.header}>
       <Typography
@@ -22,7 +22,7 @@ function Header({ title, skipLink, skipOnClick }) {
           to={skipLink}
           onClick={skipOnClick}
         >
-          건너뛰기
+          {buttonLabel}
         </Button>
       </Box>
     </Box>

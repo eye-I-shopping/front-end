@@ -106,6 +106,7 @@ const SpeedChoice = () => {
     <>
       <Header
         title="음성 속도 조절"
+        buttonLabel="건너뛰기"
         skipLink="/splashImage/custom/voiceChoice/speedChoice/camera"
         skipOnClick={() => {
           handleSave();
