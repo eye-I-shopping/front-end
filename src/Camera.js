@@ -192,7 +192,7 @@ function Camera() {
               color="inherit"
               startIcon={<WidgetsIcon />}
             >
-              맞춤 정보 설정
+              맞춤 설정
             </Button>
           </div>
           <div className="toolbar-button">

@@ -106,6 +106,7 @@ function Camera() {
     const blob = dataUrltoBlob(dataUrl);
     const formData = new FormData();
     formData.append("image", blob);
+    formData.append("test", "5");
     formData.append("userSettings", sessionStorage.getItem("userSettings"));
 
     axios
@@ -192,7 +193,7 @@ function Camera() {
               color="inherit"
               startIcon={<WidgetsIcon />}
             >
-              맞춤 정보 설정
+              맞춤 설정
             </Button>
           </div>
           <div className="toolbar-button">
