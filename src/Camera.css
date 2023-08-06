@@ -67,5 +67,5 @@ Hide canvas canvas {
 
 .loading-image {
   width: 100%;
-  height: 30%;
+  height: auto;
 }
