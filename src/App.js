@@ -1,11 +1,11 @@
 import { HashRouter, Route, Routes } from "react-router-dom";
 import MainScreen from "./MainScreen";
 import SplashImage from "./SplashImage";
-import Custom from "./Custom";
+import Custom from "./Pages/Custom";
 import VoiceChoice from "./Pages/VoiceChoice";
 import SpeedChoice from "./Pages/SpeedChoice";
 import Camera from "./Pages/Camera";
-import CameraCustom from "./CameraCustom";
+import CameraCustom from "./Pages/CameraCustom";
 import "./App.css";
 
 const App = () => {
