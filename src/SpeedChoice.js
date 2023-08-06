@@ -3,9 +3,8 @@ import { Link } from "react-router-dom";
 import { Box, Button } from "@mui/material";
 import Header from "./components/Header";
 import IconButton from "@mui/material/IconButton";
-import KeyboardControlKeyOutlinedIcon from "@mui/icons-material/KeyboardControlKeyOutlined";
-import KeyboardArrowDownOutlinedIcon from "@mui/icons-material/KeyboardArrowDownOutlined";
 import axios from "axios";
+import BackgroundLogo from "./components/BackgroundLogo";
 
 const SpeedChoice = () => {
   const [speed, setSpeed] = useState(1);
@@ -33,7 +32,7 @@ const SpeedChoice = () => {
   const speedValue = {
     1: 0,
     2: -3,
-    3: -5
+    3: -5,
   };
 
   useEffect(() => {
@@ -113,6 +112,7 @@ const SpeedChoice = () => {
           sessionStorage.setItem("speed", 0);
         }}
       />
+      <BackgroundLogo />
       <Box
         sx={{
           display: "flex",
@@ -120,7 +120,7 @@ const SpeedChoice = () => {
           alignItems: "center",
           justifyContent: "flex-end",
           height: "100vh",
-          backgroundColor: "white",
+          backgroundColor: "transparent",
         }}
       >
         <Box
@@ -128,46 +128,64 @@ const SpeedChoice = () => {
             display: "grid",
             gridTemplateColumns: "repeat(2, 1fr)",
             gridTemplateAreas: `
-              'a a'
-              'b b'
-              'c c'
-            `,
+            'a a'
+            'b b'
+            'c c'
+          `,
             gridGap: "20px",
             padding: "30px",
             borderRadius: "40px 40px 0 0",
-            width: "70%",
+            width: "90%",
             marginBottom: "0",
-            height: "85vh",
-            backgroundColor: "#977CC9",
+            height: "91.5vh",
+            backgroundColor: "transparent",
           }}
         >
           <IconButton
             onClick={() => handleSpeedChange("increase")}
             sx={{
-              color: "white",
+              backgroundColor: "rgba(151, 151, 151, 0.1)",
               position: "resolve",
               justifyContent: "center",
               gridArea: "a",
-              borderRadius: "25px",
+              color: "black",
+              borderRadius: "55px",
+              boxShadow: "5px 5px 10px rgba(0, 0, 0, 0.2)",
+              "&:hover": {
+                backgroundColor: "#977CC9", // hover color
+                color: "white",
+              },
+              "&:active": {
+                backgroundColor: "#977CC9", // active color
+                color: "white",
+              },
             }}
           >
-            <KeyboardControlKeyOutlinedIcon
-              sx={{ fontSize: "calc(7vw + 7vh)" }}
-            />
+            Up
           </IconButton>
+
           <IconButton
             onClick={() => handleSpeedChange("decrease")}
             sx={{
-              color: "white",
+              marginBottom: "36px",
+              backgroundColor: "rgba(151, 151, 151, 0.1)",
               position: "resolve",
               justifyContent: "center",
               gridArea: "b",
-              borderRadius: "25px",
+              color: "black",
+              borderRadius: "55px",
+              boxShadow: "5px 5px 10px rgba(0, 0, 0, 0.2)",
+              "&:hover": {
+                backgroundColor: "#977CC9", // hover color
+                color: "white",
+              },
+              "&:active": {
+                backgroundColor: "#977CC9", // active color
+                color: "white",
+              },
             }}
           >
-            <KeyboardArrowDownOutlinedIcon
-              sx={{ fontSize: "calc(7vw + 7vh)" }}
-            />
+            Down
           </IconButton>
           <Button
             variant="Outlined"
@@ -175,11 +193,22 @@ const SpeedChoice = () => {
             to="/splashImage/custom/voiceChoice/speedChoice/camera"
             onClick={handleSave}
             sx={{
-              backgroundColor: "white",
-              borderRadius: "25px",
+              backgroundColor: "#BEBEBE",
+              borderRadius: "55px",
               gridArea: "c",
               color: "black",
-              fontSize: "calc(1.5vw + 1.5vh)",
+              marginTop: "30px",
+              fontSize: "calc(2vw + 2vh)",
+              height: "15vh",
+              boxShadow: "5px 5px 10px rgba(0, 0, 0, 0.2)",
+              "&:hover": {
+                backgroundColor: "#977CC9", // hover color
+                color: "white",
+              },
+              "&:active": {
+                backgroundColor: "#977CC9", // active color
+                color: "white",
+              },
             }}
           >
             저장하기

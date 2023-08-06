@@ -1,18 +1,38 @@
 import React from "react";
-import { Box, Button, Typography } from "@mui/material";
-import styles from "./Header.module.css";
-import LogoIm from "../image/headerLogo.png";
+import { Button, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
+import styled from "styled-components";
 
-function Header({ title, skipLink, skipOnClick }) {
+const HeaderContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+`;
+
+function Header({ title, skipLink, skipOnClick, subTitle = "건너뛰기" }) {
   return (
-    <Box className={styles.header}>
-      <img className={styles.logo} src={LogoIm} alt="Logo" />
-      <Typography variant="h5">{title}</Typography>
-      <Box className={styles.skipButtonContainer}>
-        <Button color="inherit" component={Link} to={skipLink} onClick={skipOnClick}>건너뛰기</Button>
-      </Box>
-    </Box>
+    <HeaderContainer>
+      <Typography
+        sx={{
+          fontSize: "32px",
+          margin: "30px 40px",
+        }}
+      >
+        {title}
+      </Typography>
+      <Button
+        sx={{ fontSize: "15px", padding: "30px 30px" }}
+        color="inherit"
+        component={Link}
+        to={skipLink}
+        onClick={skipOnClick}
+      >
+        {subTitle}
+      </Button>
+    </HeaderContainer>
   );
 }
 

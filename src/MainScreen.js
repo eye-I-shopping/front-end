@@ -5,27 +5,31 @@ import { useNavigate } from "react-router-dom";
 
 function MainScreen() {
   const navigate = useNavigate();
-  const [isTransitioning, setIsTransitioning] = useState(false);
+  const [fadeOut, setFadeOut] = useState(false);
 
   useEffect(() => {
-    const logoFadeTimer = setTimeout(() => {
-      setIsTransitioning(true);
-    }, 2000);
-
     const transitionTimer = setTimeout(() => {
-      navigate("/splashImage", { replace: true });
-    }, 4000);
-
+      setFadeOut(true);
+      setTimeout(() => {
+        navigate("/splashImage", { replace: true });
+      }, 2000);
+    }, 2000);
     return () => {
-      clearTimeout(logoFadeTimer);
       clearTimeout(transitionTimer);
     };
   }, [navigate]);
 
   return (
-    <div className={`mainScreen ${isTransitioning ? "transitioning" : ""}`}>
+    <div className={`mainScreen ${fadeOut ? "fade-out" : ""}`}>
+      <div className="main-text-container">
+        <span className="subtitle">
+          세상을 열어주는
+          <br />
+          구매 보조앱
+        </span>
+        <h2 className="title">EYE(I) 쇼핑</h2>
+      </div>
       <img src={logoImage} alt="Logo" className="logo" />
-      {isTransitioning && <div className="circle-mask"></div>}
     </div>
   );
 }

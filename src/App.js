@@ -6,6 +6,7 @@ import VoiceChoice from "./VoiceChoice";
 import SpeedChoice from "./SpeedChoice";
 import Camera from "./Camera";
 import CameraCustom from "./CameraCustom";
+import "./App.css";
 
 const App = () => {
   return (
