@@ -73,9 +73,10 @@ const Custom = () => {
     <Box
       onClick={handleToggle(name)}
       sx={{
-        borderRadius: "55px",
-        backgroundColor: "rgba(151, 151, 151, 0.1)",
-        padding: "10px",
+        width: "90%",
+        height: "90%",
+        borderRadius: "50px",
+        backgroundColor: "rgba(151, 151, 151, 0.2)",
         display: "flex",
         justifyContent: "space-between",
         alignItems: "center",
@@ -83,11 +84,16 @@ const Custom = () => {
         boxShadow: "5px 5px 10px rgba(0, 0, 0, 0.2)",
       }}
     >
-      <Box sx={{ display: "flex", alignItems: "center", color: "black" }}>
-        {icon}
-        <Box component="span" sx={{ marginLeft: 5 }}>
-          {label}
-        </Box>
+      <Box
+        component="span"
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          color: "black",
+          marginLeft: 5,
+        }}
+      >
+        {label}
       </Box>
       <ThemeProvider theme={theme}>
         <FormControlLabel
@@ -108,44 +114,40 @@ const Custom = () => {
   );
 
   return (
-    <ThemeProvider theme={theme}>
-      <BackgroundLogo />
-      <Header
-        title="맞춤 정보 설정"
-        skipLink="/splashImage/custom/voiceChoice"
-        skipOnClick={() => {
-          sessionStorage.setItem("userSettings", 0);
-        }}
-      />
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "flex-end",
-          height: "100vh",
-          backgroundColor: "transparent",
-        }}
-      >
-        <Box
-          sx={{
-            display: "grid",
-            gridTemplateColumns: "repeat(1, 1fr)",
-            gridTemplateRows: "repeat(5, 1fr)",
-            gridGap: "20px",
-            padding: "80px",
-            borderRadius: "40px 40px 0 0",
-            width: "90%",
-            marginBottom: "0",
-            height: "85vh",
-            backgroundColor: "transparent",
-            fontSize: "calc(1.5vw + 1.5vh)",
-          }}
-        >
-          <BoxOption name="taste" label="맛 정보 확인" />
-          <BoxOption name="allergy" label="알레르기 정보 확인" />
-          <BoxOption name="package" label="포장 형태 확인" />
-          <BoxOption name="cooking" label="조리방법 및 주의사항 확인" />
+    <div className="container">
+      <ThemeProvider theme={theme}>
+        <BackgroundLogo />
+        <div className="header">
+          <Header
+            title="맞춤 정보 설정"
+            skipLink="/splashImage/custom/voiceChoice"
+            skipOnClick={() => {
+              sessionStorage.setItem("userSettings", 0);
+            }}
+          />
+        </div>
+        <div className="content">
+          <Box
+            sx={{
+              display: "grid",
+              gridTemplateColumns: "repeat(1, 1fr)",
+              gridTemplateRows: "repeat(4, 1fr)",
+              gridGap: "20px",
+              width: "100%",
+              height: "90%",
+              backgroundColor: "transparent",
+              fontSize: "20px",
+              justifyItems: "center",
+              alignItems: "center",
+            }}
+          >
+            <BoxOption name="taste" label="맛 정보 확인" />
+            <BoxOption name="allergy" label="알레르기 정보 확인" />
+            <BoxOption name="package" label="포장 형태 확인" />
+            <BoxOption name="cooking" label="조리방법 및 주의사항 확인" />
+          </Box>
+        </div>
+        <div className="footer">
           <Button
             onClick={handleSave}
             color="primary"
@@ -153,14 +155,13 @@ const Custom = () => {
             component={Link}
             to="/splashImage/custom/voiceChoice"
             sx={{
-              height: "15vh",
+              width: "90%",
+              height: "80%",
               backgroundColor: "#bebebe",
-              borderRadius: "55px",
+              borderRadius: "40px",
               color: "black",
-              fontSize: "calc(2vw + 2vh)",
-              marginBottom: "80px",
-              marginTop: "20px",
-              boxShadow: "5px 5px 10px rgba(0, 0, 0, 0.2)",
+              fontSize: "25px",
+              boxShadow: "0px 5px 10px rgba(0, 0, 0, 0.2)",
               "&:hover": {
                 backgroundColor: "#977CC9", // hover color
                 color: "white",
@@ -173,10 +174,10 @@ const Custom = () => {
           >
             저장하기
           </Button>
-        </Box>
-      </Box>
-      <audio ref={audioRef} hidden />
-    </ThemeProvider>
+        </div>
+        <audio ref={audioRef} hidden />
+      </ThemeProvider>
+    </div>
   );
 };
 

@@ -1,8 +1,18 @@
 import React from "react";
-import logoImage_purple from "../image/logo_purple.png";
-import "./BackgroundLogo.css";
+import logoPurple from "../image/logo_purple.png";
 
-function BackgroundLogo() {
-  return <img src={logoImage_purple} alt="Logo" className="logo-purple" />;
-}
+const BackgroundLogo = () => {
+  const logoStyle = {
+    width: "230vw",
+    height: "auto",
+    position: "absolute",
+    top: "35%",
+    left: "-40%",
+    opacity: "10%",
+    zIndex: -1,
+  };
+
+  return <img src={logoPurple} alt="Logo" style={logoStyle} />;
+};
+
 export default BackgroundLogo;
