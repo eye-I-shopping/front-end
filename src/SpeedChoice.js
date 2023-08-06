@@ -103,120 +103,119 @@ const SpeedChoice = () => {
   };
 
   return (
-    <>
-      <Header
-        title="음성 속도 조절"
-        skipLink="/splashImage/custom/voiceChoice/speedChoice/camera"
-        skipOnClick={() => {
-          handleSave();
-          sessionStorage.setItem("speed", 0);
-        }}
-      />
+    <div className="container">
       <BackgroundLogo />
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "flex-end",
-          height: "100vh",
-          backgroundColor: "transparent",
-        }}
-      >
+      <div className="header">
+        <Header
+          title="음성 속도 조절"
+          skipLink="/splashImage/custom/voiceChoice/speedChoice/camera"
+          skipOnClick={() => {
+            handleSave();
+            sessionStorage.setItem("speed", 0);
+          }}
+        />
+      </div>
+      <div className="content">
         <Box
           sx={{
             display: "grid",
-            gridTemplateColumns: "repeat(2, 1fr)",
-            gridTemplateAreas: `
-            'a a'
-            'b b'
-            'c c'
-          `,
-            gridGap: "20px",
-            padding: "30px",
-            borderRadius: "40px 40px 0 0",
-            width: "90%",
-            marginBottom: "0",
-            height: "91.5vh",
-            backgroundColor: "transparent",
+            width: "100%",
+            height: "90%",
+            justifyItems: "center",
+            alignItems: "center",
           }}
         >
-          <IconButton
-            onClick={() => handleSpeedChange("increase")}
+          <Box
             sx={{
-              backgroundColor: "rgba(151, 151, 151, 0.1)",
-              position: "resolve",
-              justifyContent: "center",
-              gridArea: "a",
-              color: "black",
-              borderRadius: "55px",
-              boxShadow: "5px 5px 10px rgba(0, 0, 0, 0.2)",
-              "&:hover": {
-                backgroundColor: "#977CC9", // hover color
-                color: "white",
-              },
-              "&:active": {
-                backgroundColor: "#977CC9", // active color
-                color: "white",
-              },
+              display: "grid",
+              gridTemplateRows: "repeat(2, 1fr)",
+              gridTemplateAreas: `
+            'a a'
+            'b b'
+          `,
+              gridGap: "20px",
+              width: "90%",
+              height: "100%",
+              backgroundColor: "transparent",
             }}
           >
-            Up
-          </IconButton>
-
-          <IconButton
-            onClick={() => handleSpeedChange("decrease")}
-            sx={{
-              marginBottom: "36px",
-              backgroundColor: "rgba(151, 151, 151, 0.1)",
-              position: "resolve",
-              justifyContent: "center",
-              gridArea: "b",
-              color: "black",
-              borderRadius: "55px",
-              boxShadow: "5px 5px 10px rgba(0, 0, 0, 0.2)",
-              "&:hover": {
-                backgroundColor: "#977CC9", // hover color
-                color: "white",
-              },
-              "&:active": {
-                backgroundColor: "#977CC9", // active color
-                color: "white",
-              },
-            }}
-          >
-            Down
-          </IconButton>
-          <Button
-            variant="Outlined"
-            component={Link}
-            to="/splashImage/custom/voiceChoice/speedChoice/camera"
-            onClick={handleSave}
-            sx={{
-              backgroundColor: "#BEBEBE",
-              borderRadius: "55px",
-              gridArea: "c",
-              color: "black",
-              marginTop: "30px",
-              fontSize: "calc(2vw + 2vh)",
-              height: "15vh",
-              boxShadow: "5px 5px 10px rgba(0, 0, 0, 0.2)",
-              "&:hover": {
-                backgroundColor: "#977CC9", // hover color
-                color: "white",
-              },
-              "&:active": {
-                backgroundColor: "#977CC9", // active color
-                color: "white",
-              },
-            }}
-          >
-            저장하기
-          </Button>
+            <IconButton
+              onClick={() => handleSpeedChange("increase")}
+              sx={{
+                backgroundColor: "rgba(151, 151, 151, 0.2)",
+                position: "resolve",
+                justifyContent: "center",
+                gridArea: "a",
+                color: "black",
+                borderRadius: "50px",
+                boxShadow: "5px 5px 10px rgba(0, 0, 0, 0.2)",
+                "&:hover": {
+                  backgroundColor: "#977CC9", // hover color
+                  color: "white",
+                },
+                "&:active": {
+                  backgroundColor: "#977CC9", // active color
+                  color: "white",
+                },
+              }}
+            >
+              UP
+            </IconButton>
+            <IconButton
+              onClick={() => handleSpeedChange("decrease")}
+              sx={{
+                backgroundColor: "rgba(151, 151, 151, 0.2)",
+                position: "resolve",
+                justifyContent: "center",
+                gridArea: "b",
+                color: "black",
+                borderRadius: "50px",
+                boxShadow: "5px 5px 10px rgba(0, 0, 0, 0.2)",
+                "&:hover": {
+                  backgroundColor: "#977CC9", // hover color
+                  color: "white",
+                },
+                "&:active": {
+                  backgroundColor: "#977CC9", // active color
+                  color: "white",
+                },
+              }}
+            >
+              DOWN
+            </IconButton>
+          </Box>
         </Box>
-      </Box>
+      </div>
+      <div className="footer">
+        <Button
+          onClick={handleSave}
+          color="primary"
+          variant="contained"
+          component={Link}
+          to="/splashImage/custom/voiceChoice/speedChoice/camera"
+          sx={{
+            width: "90%",
+            height: "80%",
+            backgroundColor: "#bebebe",
+            borderRadius: "40px",
+            color: "black",
+            fontSize: "25px",
+            boxShadow: "0px 5px 10px rgba(0, 0, 0, 0.2)",
+            "&:hover": {
+              backgroundColor: "#977CC9", // hover color
+              color: "white",
+            },
+            "&:active": {
+              backgroundColor: "#977CC9", // active color
+              color: "white",
+            },
+          }}
+        >
+          저장하기
+        </Button>
+      </div>
       <audio ref={audioRef} autoPlay />
-    </>
+    </div>
   );
 };
 

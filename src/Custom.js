@@ -69,12 +69,12 @@ const Custom = () => {
     sessionStorage.setItem("userSettings", userSettings);
   };
 
-  const BoxOption = ({ name, icon, label }) => (
+  const BoxOption = ({ name, label }) => (
     <Box
       onClick={handleToggle(name)}
       sx={{
         width: "90%",
-        height: "90%",
+        height: "100%",
         borderRadius: "50px",
         backgroundColor: "rgba(151, 151, 151, 0.2)",
         display: "flex",
@@ -84,17 +84,7 @@ const Custom = () => {
         boxShadow: "5px 5px 10px rgba(0, 0, 0, 0.2)",
       }}
     >
-      <Box
-        component="span"
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          color: "black",
-          marginLeft: 5,
-        }}
-      >
-        {label}
-      </Box>
+      <span style={{ marginLeft: 40 }}>{label}</span>
       <ThemeProvider theme={theme}>
         <FormControlLabel
           control={
