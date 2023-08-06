@@ -2,7 +2,7 @@ import { HashRouter, Route, Routes } from "react-router-dom";
 import MainScreen from "./MainScreen";
 import SplashImage from "./SplashImage";
 import Custom from "./Custom";
-import VoiceChoice from "./VoiceChoice";
+import VoiceChoice from "./Pages/VoiceChoice";
 import SpeedChoice from "./SpeedChoice";
 import Camera from "./Camera";
 import CameraCustom from "./CameraCustom";
