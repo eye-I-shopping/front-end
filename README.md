@@ -1,6 +1,6 @@
 <h1 align="center">
   👁️ <i>eye(I)쇼핑 : 아이쇼핑</i> 🛍️<br>
-머신러닝과 ChatGPT를 활용한 시각장애인 맞춤형 구매 솔루션<br>
+  머신러닝과 ChatGPT를 활용한 시각장애인 맞춤형 구매 솔루션<br>
 </h1>
 
 <p align="center">
@@ -48,14 +48,19 @@ eye(I)쇼핑(이하 아이쇼핑)은 2023년 5월 7일부터 7월 13일까지 �
 
 아이쇼핑은 시각장애인이 물건을 구매하는 과정에서 겪는 어려움을 파악하였습니다.<br>
 
-_머신러닝_ 을 통한 **사진 인식 기술**,<br>
-_ChatGPT_ 를 활용한 **자연어 처리 기술** 을 통해 맞춤형 정보를 제공합니다.
-
 ```
 1. 시각장애인의 선택적 구매 욕구와 사용성을 충족시키는 개인화 서비스 부재
 2. 시각장애인을 돕기 위한 서비스들이 존재하긴 하나, 미흡한 사용성
 3. 점자는 시각장애인의 기호를 무시하고 제품 군만 표시하며, 때로는 전혀 표시하지 않는 경우도 빈번
 ```
+
+<br>
+
+이와 더불어, 아이쇼핑은 `시각장애인 시장의 규모에 대한 조사`를 실시하였습니다.<br>
+
+<p align="left">
+  <img width="500" src="https://github.com/1three/nextjs-ts-qna/assets/94810322/825bb2fb-de4a-42dc-8ec8-fecafbab2ef9"/>
+</p>
 
 <br><br>
 
@@ -206,17 +211,17 @@ _같은 카테고리의 제품이 10개 이상 인식될 경우, 매대의 정�
     </tr>
     <tr>
       <td align="center">
-        <a href="https://github.com/1three">
+        <a href="https://github.com/leewanjae">
           이완재
         </a>
       </td>
       <td align="center">
-        <a href="https://github.com/leewanjae">
+        <a href="https://github.com/ParkSeryu">
           박준형
         </a>
       </td>
       <td align="center">
-        <a href="https://github.com/doohaJeon">
+        <a href="https://github.com/1three">
           김한슬
         </a>
       </td>
